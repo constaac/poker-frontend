@@ -24,11 +24,6 @@ const signInSuccess = (data) => {
   $('.start-display-none').css('display', 'inline')
   $('.start-display-none-logout').css('display', 'inline')
   $('.start-display-none-password').css('display', 'inline')
-  $('.login-status').text('Signed in as ' + store.userEmail)
-  $('#welcome-message').css('display', 'none')
-  $('#gameboard').css('display', 'block')
-  $('.history-display-container').css('display', 'inline')
-  $('.game-note').css('display', 'inline')
 }
 
 const signInFailure = (error) => {
@@ -41,26 +36,12 @@ const signInFailure = (error) => {
 }
 
 const logoutSuccess = (data) => {
-  $('.login-status').text('')
   $('.hidebutton').css('display', 'inline')
-  $('.start-display-none-logout').css('display', 'none')
-  $('.start-display-none-password').css('display', 'none')
-  $('#welcome-message').css('display', 'block')
-  $('#gameboard').css('display', 'none')
-  $('.gameid-indicator').text('')
-  $('.game-history').empty()
-  $('.empty-game-history').css('display', 'none')
-  $('.history-display-container').css('display', 'none')
-  $('.history-radios').prop('checked', false)
-  $('#radio1').prop('checked', true)
   $('.game-note').css('display', 'none')
   $('#outcome-indicator').text('')
-  gamelogic.resetCurrentStats()
-  resetGameBoard()
 }
 
 const logoutFailure = () => {
-  $('.login-status').text('Error logging out!')
 }
 
 const changePasswordSuccess = (data) => {
