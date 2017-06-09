@@ -20,10 +20,8 @@ const signUpFailure = (response) => {
 
 const signInSuccess = (data) => {
   $('#loginModal').modal('toggle')
-  $('.hidebutton').css('display', 'none')
-  $('.start-display-none').css('display', 'inline')
-  $('.start-display-none-logout').css('display', 'inline')
-  $('.start-display-none-password').css('display', 'inline')
+  $('.start-inline').fadeOut().css('display', 'none')
+  $('.start-display-none').fadeIn().css('display', 'inline')
 }
 
 const signInFailure = (error) => {
@@ -36,8 +34,8 @@ const signInFailure = (error) => {
 }
 
 const logoutSuccess = (data) => {
-  $('.hidebutton').css('display', 'inline')
-  $('.game-note').css('display', 'none')
+  $('.start-inline').fadeIn().css('display', 'inline')
+  $('.start-display-none').fadeOut().css('display', 'none')
   $('#outcome-indicator').text('')
 }
 
