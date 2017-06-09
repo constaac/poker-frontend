@@ -37,6 +37,7 @@ const logoutSuccess = (data) => {
   $('.start-inline').fadeIn().css('display', 'inline')
   $('.start-display-none').fadeOut().css('display', 'none')
   $('#outcome-indicator').text('')
+  $('#seats-table').empty()
 }
 
 const logoutFailure = () => {
@@ -50,7 +51,7 @@ const changePasswordSuccess = (data) => {
   }, 3000)
 }
 
-const changePasswordFailure = (error) => {
+const changePasswordFailure = () => {
   $('.passwordstatus').html('Password Change Unsuccessful...')
   $('.passwordstatus').css('color', 'red')
   setTimeout(function () {

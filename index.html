@@ -18,27 +18,32 @@
     <h1>Poker Tracker</h1>
   </div>
 
-  <nav class="navbar navbar-default navbar">
+  <nav class="navbar navbar-default">
+    <div class="btn-group btn-group-justified start-inline">
+      <!-- Login Button trigger modal -->
+      <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+      Login
+    </a>
 
-    <!-- Login Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg start-inline" data-toggle="modal" data-target="#loginModal">
-    Login
-    </button>
+      <!-- Account Creation button trigger modal -->
+      <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#accountCreateModal">
+        Create an Account
+      </a>
+    </div>
+    <div class="btn-group btn-group-justified start-display-none">
+      <!-- logout Button -->
+      <a type="button" id="logout-button" class="btn btn-primary">Logout</a>
 
-    <!-- Account Creation button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg start-inline" data-toggle="modal" data-target="#accountCreateModal">
-    Create an Account
-    </button>
+      <!-- Set Table Modal Button -->
+      <a type="button" class="btn btn-success" data-toggle="modal" data-target="#tableModal">
+        Set Table
+      </a>
 
-    <!-- logout Button -->
-    <form class="logout start-display-none" id="logout-form">
-      <button type="submit" name="submit" class="btn btn-primary btn-lg">Logout</button>
-    </form>
-
-    <!-- Password Change Modal Button -->
-    <button type="button" class="btn btn-primary btn-lg start-display-none" data-toggle="modal" data-target="#passwordModal">
-    Change Password
-    </button>
+      <!-- Password Change Modal Button -->
+      <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#passwordModal">
+        Change Password
+      </a>
+    </div>
   </nav>
 
 
@@ -146,6 +151,157 @@
             </div>
           </form>
           <p class="passwordstatus"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Set Table Modal -->
+  <div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="table">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="table-label">Set the Table</h4>
+        </div>
+        <div class="modal-body">
+          <div id="seats-table">
+            <!-- <table style="width:100%">
+              <tr>
+                <th>Seat #</th>
+                <th>Name</th>
+                <th>Sitting</th>
+                <th>User's Seat</th>
+              </tr>
+              <tr>
+                <td>
+                  Seat 1:
+                </td>
+                <td>
+                  <span id="playername1">Player 1</span><br>
+                </td>
+                <td>
+                    <input type="checkbox" name="seats" value="1"><br>
+                </td>
+                <td>
+                    <input type="radio" name="user" value="1"><br>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Seat 2:
+                </td>
+                <td>
+                  <span id="playername2">Player 2</span><br>
+                </td>
+                <td>
+                    <input type="checkbox" name="seats" value="2"><br>
+                </td>
+                <td>
+                    <input type="radio" name="user" value="2"><br>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Seat 3:
+                </td>
+                <td>
+                  <span id="playername3">Player 3</span><br>
+                </td>
+                <td>
+                    <input type="checkbox" name="seats" value="3"><br>
+                </td>
+                <td>
+                    <input type="radio" name="user" value="3"><br>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Seat 4:
+                </td>
+                <td>
+                  <span id="playername4">Player 4</span><br>
+                </td>
+                <td>
+                    <input type="checkbox" name="seats" value="4"><br>
+                </td>
+                <td>
+                    <input type="radio" name="user" value="4"><br>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Seat 5:
+                </td>
+                <td>
+                  <span id="playername5">Player 5</span><br>
+                </td>
+                <td>
+                    <input type="checkbox" name="seats" value="5"><br>
+                </td>
+                <td>
+                    <input type="radio" name="user" value="5"><br>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Seat 6:
+                </td>
+                <td>
+                  <span id="playername6">Player 6</span><br>
+                </td>
+                <td>
+                    <input type="checkbox" name="seats" value="6"><br>
+                </td>
+                <td>
+                    <input type="radio" name="user" value="6"><br>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Seat 7:
+                </td>
+                <td>
+                  <span id="playername7">Player 7</span><br>
+                </td>
+                <td>
+                    <input type="checkbox" name="seats" value="7"><br>
+                </td>
+                <td>
+                    <input type="radio" name="user" value="7"><br>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Seat 8:
+                </td>
+                <td>
+                  <span id="playername8">Player 8</span><br>
+                </td>
+                <td>
+                    <input type="checkbox" name="seats" value="8"><br>
+                </td>
+                <td>
+                    <input type="radio" name="user" value="8"><br>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Seat 9:
+                </td>
+                <td>
+                  <span id="playername9">Player 9</span><br>
+                </td>
+                <td>
+                    <input type="checkbox" name="seats" value="9"><br>
+                </td>
+                <td>
+                    <input type="radio" name="user" value="9"><br>
+                </td>
+              </tr>
+            </table> -->
+          </div>
+          <button type="button" name="button" class="btn" id="set-seats-button">Set Seats</button>
         </div>
       </div>
     </div>

@@ -39,7 +39,7 @@ const onChangePassword = function (event) {
 const addHandlers = () => {
   $('#signup-form').on('submit', onSignUp)
   $('#login-form').on('submit', onLogin)
-  $('#logout-form').on('submit', onLogout)
+  $('#logout-button').on('click', onLogout)
   $('#password-form').on('submit', onChangePassword)
   $('#passwordModal').on('hidden.bs.modal', ui.onClosePasswordPrompt)
   $('#loginModal').on('hidden.bs.modal', ui.onCloseLoginPrompt)

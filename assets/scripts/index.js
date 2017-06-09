@@ -8,9 +8,11 @@ $(() => {
 })
 
 const authEvents = require('./auth/events.js')
+const trackerEvents = require('./tracker/events.js')
 
 $(() => {
   authEvents.addHandlers()
+  trackerEvents.addHandlers()
 })
 // use require with a reference to bundle the file and use it in this file
 // const example = require('./example')
