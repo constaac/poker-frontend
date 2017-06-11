@@ -40,6 +40,11 @@ const logoutSuccess = (data) => {
   $('#outcome-indicator').text('')
   $('#seats-table').empty()
   trackerui.resetSeats()
+  $('#start-round-btn').css('display', 'block')
+  $('#set-table-btn').on('click', () => {
+    $('#tableModal').modal('show')
+  })
+  $('#set-table-btn').removeAttr('disabled')
 }
 
 const logoutFailure = () => {

@@ -45,23 +45,22 @@
       </a>
     </div>
   </nav>
-
   <div class="container-fluid start-display-none">
     <div class="row">
       <div class="col-xs-12">
         <button type="button" id="start-round-btn" class="btn btn-danger btn-primary btn-block btn-main">Start Round</button>
       </div>
       <div class="col-xs-12">
-        <button type="button" class="btn btn-info btn-primary btn-block btn-main">Bet / Raise</button>
+        <button type="button" id="bet-button" class="btn btn-info btn-primary btn-block btn-main">Bet / Raise</button>
       </div>
       <div class="col-xs-12">
-        <button type="button" class="btn btn-info btn-primary btn-block btn-main">Call</button>
+        <button type="button" id="call-button" class="btn btn-info btn-primary btn-block btn-main">Call</button>
       </div>
       <div class="col-xs-12">
-        <button type="button" class="btn btn-info btn-primary btn-block btn-main">Check</button>
+        <button type="button" id="check-button" class="btn btn-info btn-primary btn-block btn-main">Check</button>
       </div>
       <div class="col-xs-12">
-        <button type="button" class="btn btn-info btn-primary btn-block btn-main">Fold</button>
+        <button type="button" id="fold-button" class="btn btn-info btn-primary btn-block btn-main">Fold</button>
       </div>
       <div class="col-xs-12">
         <button type="button" id="teststats" class="btn btn-success btn-primary btn-block btn-main">Statistics</button>
@@ -69,6 +68,9 @@
       <div class="col-xs-12">
 
       </div>
+    </div>
+    <div class="well">
+      <span id="status-indicator">Error messages will display here</span>
     </div>
   </div>
 
@@ -201,7 +203,7 @@
             <li><a type="button" class="btn" id="seat-button-9">9</a></li>
             <li><a type="button" class="btn" id="seat-button-10">10</a></li>
           </ul>
-          <div id="seats-table">
+          <div id="seats-table" class="panel panel-default">
 
           </div><br>
         </div>

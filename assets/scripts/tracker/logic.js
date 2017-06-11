@@ -1,15 +1,15 @@
 'use-strict'
 
-let p1 = {sitting: false, playing: false, is_user: false}
-let p2 = {sitting: false, playing: false, is_user: false}
-let p3 = {sitting: false, playing: false, is_user: false}
-let p4 = {sitting: false, playing: false, is_user: false}
-let p5 = {sitting: false, playing: false, is_user: false}
-let p6 = {sitting: false, playing: false, is_user: false}
-let p7 = {sitting: false, playing: false, is_user: false}
-let p8 = {sitting: false, playing: false, is_user: false}
-let p9 = {sitting: false, playing: false, is_user: false}
-let p10 = {sitting: false, playing: false, is_user: false}
+const p1 = {sitting: false, playing: false, is_user: false}
+const p2 = {sitting: false, playing: false, is_user: false}
+const p3 = {sitting: false, playing: false, is_user: false}
+const p4 = {sitting: false, playing: false, is_user: false}
+const p5 = {sitting: false, playing: false, is_user: false}
+const p6 = {sitting: false, playing: false, is_user: false}
+const p7 = {sitting: false, playing: false, is_user: false}
+const p8 = {sitting: false, playing: false, is_user: false}
+const p9 = {sitting: false, playing: false, is_user: false}
+const p10 = {sitting: false, playing: false, is_user: false}
 
 const game = {active: false, p1: p1, p2: p2, p3: p3, p4: p4, p5: p5, p6: p6, p7: p7, p8: p8, p9: p9, p10: p10}
 
@@ -29,6 +29,12 @@ const checkSittingPlayers = function () {
 
 const startRound = function () {
   if (checkSittingPlayers()) {
+    $('#status-indicator').css('color', 'red')
+    $('#status-indicator').html('Atleast two players must be sitting.')
+    setTimeout(function () {
+      $('#status-indicator').html('')
+      $('#status-indicator').css('color', 'black')
+    }, 2000)
     return
   }
   $('#start-round-btn').fadeOut().css('display', 'none')
