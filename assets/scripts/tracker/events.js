@@ -3,7 +3,15 @@
 const ui = require('./ui.js')
 
 const addHandlers = () => {
-  $('#set-seats-button').on('click', ui.onSetSeats)
+  $('#seat-button-2').on('click', ui.onSetSeat2)
+  $('#seat-button-3').on('click', ui.onSetSeat3)
+  $('#seat-button-4').on('click', ui.onSetSeat4)
+  $('#seat-button-5').on('click', ui.onSetSeat5)
+  $('#seat-button-6').on('click', ui.onSetSeat6)
+  $('#seat-button-7').on('click', ui.onSetSeat7)
+  $('#seat-button-8').on('click', ui.onSetSeat8)
+  $('#seat-button-9').on('click', ui.onSetSeat9)
+  $('#seat-button-10').on('click', ui.onSetSeat10)
 }
 
 module.exports = {
