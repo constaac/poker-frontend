@@ -1,6 +1,7 @@
 'use strict'
 
 const ui = require('./ui.js')
+const logic = require('./logic.js')
 
 const addHandlers = () => {
   $('#seat-button-2').on('click', ui.onSetSeat2)
@@ -12,6 +13,9 @@ const addHandlers = () => {
   $('#seat-button-8').on('click', ui.onSetSeat8)
   $('#seat-button-9').on('click', ui.onSetSeat9)
   $('#seat-button-10').on('click', ui.onSetSeat10)
+  $('#start-round-btn').on('click', logic.startRound)
+  $('#set-table-btn').on('click', ui.openSetSeats)
+  $('#teststats').on('click', logic.teststats)
 }
 
 module.exports = {

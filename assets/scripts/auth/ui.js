@@ -1,5 +1,6 @@
 'use strict'
 const store = require('../store')
+const trackerui = require('../tracker/ui.js')
 
 const signUpSuccess = () => {
   $('.signupstatus').html('Account Creation Successful!')
@@ -38,6 +39,7 @@ const logoutSuccess = (data) => {
   $('.start-display-none').fadeOut().css('display', 'none')
   $('#outcome-indicator').text('')
   $('#seats-table').empty()
+  trackerui.resetSeats()
 }
 
 const logoutFailure = () => {

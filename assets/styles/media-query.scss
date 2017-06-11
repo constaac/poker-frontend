@@ -4,7 +4,19 @@
         margin-top: -20px;
         margin-bottom: -5px;
     }
+
     nav {
       margin-top: -10px;
+    }
+
+    .btn-main {
+      margin: 10px 0;
+    }
+}
+
+@media only screen and (min-width: 500px) {
+    .btn-main {
+      margin: 20px auto;
+      width: 700px;
     }
 }
