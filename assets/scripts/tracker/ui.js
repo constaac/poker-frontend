@@ -2,12 +2,13 @@
 
 const setSeatsNumber = require('../templates/table.handlebars')
 const logic = require('./logic.js')
+const store = require('../store.js')
 
 const resetSeats = function () {
   for (let i = 1; i <= 10; i++) {
-    logic['p' + i].sitting = false
-    logic['p' + i].playing = false
-    logic['p' + i].is_user = false
+    logic.game['p' + i].sitting = false
+    logic.game['p' + i].playing = false
+    logic.game['p' + i].is_user = false
   }
 }
 
@@ -15,13 +16,13 @@ const setOnCheckBox = function (x) {
   for (let i = 1; i <= x; i++) {
     $('#checkbox' + i).change(function () {
       if (this.checked) {
-        logic['p' + i].playing = true
+        logic.game['p' + i].playing = true
       } else {
-        logic['p' + i].playing = false
+        logic.game['p' + i].playing = false
       }
     })
-    logic['p' + i].sitting = true
-    logic['p' + i].playing = true
+    logic.game['p' + i].sitting = true
+    logic.game['p' + i].playing = true
   }
 }
 
@@ -30,10 +31,12 @@ const setOnCheckRadio = function (x) {
     $('#radio' + i).change(function () {
       const count = x
       for (let k = 1; k <= count; k++) {
-        logic['p' + k].is_user = false
+        logic.game['p' + k].is_user = false
+        logic.game['p' + k].name = store['p' + k + 'name']
       }
       if (this.checked) {
-        logic['p' + i].is_user = true
+        logic.game['p' + i].is_user = true
+        logic.game['p' + i].name = store.userEmail
       }
     })
   }

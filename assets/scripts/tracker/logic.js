@@ -1,17 +1,35 @@
 'use-strict'
 
-const p1 = {name: 'Player 1', sitting: false, playing: false, is_user: false, is_dealer: false}
-const p2 = {name: 'Player 2', sitting: false, playing: false, is_user: false, is_dealer: false}
-const p3 = {name: 'Player 3', sitting: false, playing: false, is_user: false, is_dealer: false}
-const p4 = {name: 'Player 4', sitting: false, playing: false, is_user: false, is_dealer: false}
-const p5 = {name: 'Player 5', sitting: false, playing: false, is_user: false, is_dealer: false}
-const p6 = {name: 'Player 6', sitting: false, playing: false, is_user: false, is_dealer: false}
-const p7 = {name: 'Player 7', sitting: false, playing: false, is_user: false, is_dealer: false}
-const p8 = {name: 'Player 8', sitting: false, playing: false, is_user: false, is_dealer: false}
-const p9 = {name: 'Player 9', sitting: false, playing: false, is_user: false, is_dealer: false}
-const p10 = {name: 'Player 10', sitting: false, playing: false, is_user: false, is_dealer: false}
+const store = require('../store.js')
 
-const game = {active: false, p1: p1, p2: p2, p3: p3, p4: p4, p5: p5, p6: p6, p7: p7, p8: p8, p9: p9, p10: p10}
+const players = []
+
+const Player = function (x) {
+  this.name = 'Player ' + x
+  this.sitting = false
+  this.playing = false
+  this.is_user = false
+  this.is_dealer = false
+  this.hand_count = 0
+  this.call_preflop = 0
+  this.raise_preflop = 0
+  this.reraise_preflop = 0
+  this.fold_on_reraise_preflop = 0
+}
+
+const makePlayers = function () {
+  for (let i = 1; i <= 10; i++) {
+    const newPlayer = new Player(i)
+    players.push(newPlayer)
+    store['p' + i + 'name'] = 'Player ' + i
+  }
+  console.log(players)
+}
+makePlayers()
+
+const phases = ['pre-flop', 'flop', 'turn', 'river']
+
+const game = {active: false, phase: phases[0], playing: [], p1: players[0], p2: players[1], p3: players[2], p4: players[3], p5: players[4], p6: players[5], p7: players[6], p8: players[7], p9: players[8], p10: players[9]}
 
 const checkSittingPlayers = function () {
   let count = 0
@@ -75,6 +93,7 @@ const startRound = function () {
 
 const teststats = function () {
   console.log(game)
+  console.log(store)
 }
 
 const check = function () {
@@ -82,6 +101,10 @@ const check = function () {
 }
 
 const bet = function () {
+
+}
+
+const call = function () {
 
 }
 
@@ -96,14 +119,5 @@ module.exports = {
   bet,
   fold,
   teststats,
-  p1,
-  p2,
-  p3,
-  p4,
-  p5,
-  p6,
-  p7,
-  p8,
-  p9,
-  p10
+  call
 }
