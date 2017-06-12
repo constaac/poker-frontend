@@ -202,7 +202,9 @@ const incrementPhase = function (condition) {
     game.phase = phases[game.phase_count]
     setCurrentBet()
   } else if (game.phase_count === 4) {
+    $('#status-indicator').html('This round is over.')
     triggerEndOfRound()
+    return
   }
 }
 
@@ -267,6 +269,7 @@ const call = function () {
       return
     }
     setCurrentMove()
+    $('#status-indicator').html(game.current_move.name + "'s move.")
   } else {
     $('#status-indicator').html(game.current_move.name + "'s move. A Call isn't possible.")
   }
