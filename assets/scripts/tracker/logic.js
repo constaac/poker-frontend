@@ -15,6 +15,7 @@ const Player = function (x) {
   this.raise_preflop = 0
   this.reraise_preflop = 0
   this.fold_on_reraise_preflop = 0
+  this.personal_bet_count = 0
 }
 
 const makePlayers = function () {
@@ -32,10 +33,13 @@ const phases = ['Pre-Flop', 'Flop', 'Turn', 'River']
 const game = {
   active: false,
   phase: phases[0],
+  phase_count: 0,
   first_to_bet: undefined,
   small_blind: undefined,
   big_blind: undefined,
   current_move: undefined,
+  current_move_index: undefined,
+  current_bet_count: undefined,
   playing: [],
   p1: players[0],
   p2: players[1],
@@ -100,12 +104,19 @@ const calcBlinds = function () {
   if (game.playing.length > 2) {
     game.small_blind = game.playing[smallBlind]
     game.big_blind = game.playing[bigBlind]
+    game.playing[bigBlind].personal_bet_count = 1
     game.current_move = game.playing[currentMove]
+    game.current_move_index = currentMove
   } else {
     game.small_blind = game.playing[startPosition]
     game.big_blind = game.playing[smallBlind]
-    game.currentMove = game.playing[startPosition]
+    game.playing[smallBlind].personal_bet_count = 1
+    game.first_to_bet = game.playing[startPosition]
+    game.current_move = game.playing[startPosition]
+    game.current_move_index = startPosition
   }
+  game.phase_count = 0
+  game.phase = phases[0]
 }
 
 const displayDealerMenu = function () {
@@ -119,6 +130,7 @@ const displayDealerMenu = function () {
         game.active = true
         toggleGameButtons()
         calcBlinds()
+        $('#status-indicator').text(game.current_move.name + "'s turn.")
       })
     }
   }
@@ -146,6 +158,38 @@ const onStartRound = function () {
   displayDealerMenu()
 }
 
+const setCurrentMove = function (x) {
+  let currentMoveHolder = x + 1
+  if (currentMoveHolder === game.playing.length) {
+    currentMoveHolder = 0
+  }
+  game.current_move_index = currentMoveHolder
+  game.current_move = game.playing[currentMoveHolder]
+}
+
+const setPersonalBetCountsZero = function () {
+  for (let i = 0; i < game.playing.length; i++) {
+    game.playing[i].personal_bet_count = 0
+  }
+}
+
+const setCurrentBet = function () {
+  if (game.phase === phases[0]) {
+    game.current_bet_count = 1
+  } else {
+    game.current_bet_count = 0
+  }
+}
+
+const incrementPhase = function () {
+  game.phase_count += 1
+  game.phase = phases[game.phase_count]
+}
+
+const updateCurrentBet = function () {
+
+}
+
 const checkPossible = function () {
 
 }
@@ -156,11 +200,6 @@ const betPossible = function () {
 
 const callPossible = function () {
 
-}
-
-const teststats = function () {
-  console.log(game)
-  console.log(store)
 }
 
 const check = function () {
@@ -179,6 +218,11 @@ const fold = function () {
 
 }
 
+// TEMPORARY FUNCTION
+const teststats = function () {
+  console.log(game)
+}
+
 module.exports = {
   onStartRound,
   game,
@@ -189,5 +233,9 @@ module.exports = {
   call,
   betPossible,
   checkPossible,
-  callPossible
+  callPossible,
+  setCurrentMove,
+  setCurrentBet,
+  updateCurrentBet,
+  setPersonalBetCountsZero
 }
