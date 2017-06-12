@@ -1,6 +1,7 @@
 'use strict'
 const store = require('../store')
 const trackerui = require('../tracker/ui.js')
+const trackerlogic = require('../tracker/logic.js')
 
 const signUpSuccess = () => {
   $('.signupstatus').html('Account Creation Successful!')
@@ -34,6 +35,13 @@ const signInFailure = (error) => {
   }, 3000)
 }
 
+const toggleGameButtons = function () {
+  $('#bet-button').attr('disabled', 'disabled')
+  $('#call-button').attr('disabled', 'disabled')
+  $('#check-button').attr('disabled', 'disabled')
+  $('#fold-button').attr('disabled', 'disabled')
+}
+
 const logoutSuccess = (data) => {
   $('.start-inline').fadeIn().css('display', 'inline')
   $('.start-display-none').fadeOut().css('display', 'none')
@@ -45,6 +53,10 @@ const logoutSuccess = (data) => {
     $('#tableModal').modal('show')
   })
   $('#set-table-btn').removeAttr('disabled')
+  $('.dealer-menu-container').css('display', 'none')
+  $('.dealer-menu').empty()
+  trackerlogic.game.active = false
+  toggleGameButtons()
 }
 
 const logoutFailure = () => {

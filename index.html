@@ -50,17 +50,29 @@
       <div class="col-xs-12">
         <button type="button" id="start-round-btn" class="btn btn-danger btn-primary btn-block btn-main">Start Round</button>
       </div>
-      <div class="col-xs-12">
-        <button type="button" id="bet-button" class="btn btn-info btn-primary btn-block btn-main">Bet / Raise</button>
+      <div class="dealer-menu-container">
+        <div class="text-center">
+          <u>Select the Dealer</u>
+        </div>
+        <ul class="dealer-menu pagination pagination-sm">
+          <li><a>1</a></li>
+          <li><a>1</a></li>
+          <li><a>1</a></li>
+          <li><a>1</a></li>
+          <li><a>1</a></li>
+        </ul>
       </div>
       <div class="col-xs-12">
-        <button type="button" id="call-button" class="btn btn-info btn-primary btn-block btn-main">Call</button>
+        <button type="button" id="bet-button" class="btn btn-info btn-primary btn-block btn-main" disabled>Bet / Raise</button>
       </div>
       <div class="col-xs-12">
-        <button type="button" id="check-button" class="btn btn-info btn-primary btn-block btn-main">Check</button>
+        <button type="button" id="call-button" class="btn btn-info btn-primary btn-block btn-main" disabled>Call</button>
       </div>
       <div class="col-xs-12">
-        <button type="button" id="fold-button" class="btn btn-info btn-primary btn-block btn-main">Fold</button>
+        <button type="button" id="check-button" class="btn btn-info btn-primary btn-block btn-main" disabled>Check</button>
+      </div>
+      <div class="col-xs-12">
+        <button type="button" id="fold-button" class="btn btn-info btn-primary btn-block btn-main" disabled>Fold</button>
       </div>
       <div class="col-xs-12">
         <button type="button" id="teststats" class="btn btn-success btn-primary btn-block btn-main">Statistics</button>
