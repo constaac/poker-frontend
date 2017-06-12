@@ -40,6 +40,7 @@ const game = {
   current_move: undefined,
   current_move_index: undefined,
   current_bet_count: undefined,
+  count_matching_current_bet: undefined,
   playing: [],
   p1: players[0],
   p2: players[1],
@@ -179,8 +180,10 @@ const setPersonalBetCountsZero = function () {
 const setCurrentBet = function (condition) {
   if (game.phase === phases[0]) {
     game.current_bet_count = 1
+    game.count_matching_current_bet = 1
   } else {
     game.current_bet_count = 0
+    game.count_matching_current_bet = 0
     if (condition) {
       return
     }
@@ -198,6 +201,8 @@ const incrementPhase = function (condition) {
     game.phase_count += 1
     game.phase = phases[game.phase_count]
     setCurrentBet()
+  } else if (game.phase_count === 4) {
+    triggerEndOfRound()
   }
 }
 
@@ -229,42 +234,41 @@ const callPossible = function () {
   }
 }
 
+const allCalled = function () {
+  if (game.count_matching_current_bet === game.playing.length) {
+    return true
+  } else {
+    return false
+  }
+}
+
 const check = function () {
   if (checkPossible()) {
-
+    setCurrentMove()
+    $('#status-indicator').html(game.current_move.name + "'s move.")
   } else {
-    $('#status-indicator').html("A Check isn't possible.")
-    $('#status-indicator').css('color', 'red')
-    setTimeout(function () {
-      $('#status-indicator').html(game.current_move.name + "'s move.")
-      $('#status-indicator').css('color', 'black')
-    }, 3000)
+    $('#status-indicator').html(game.current_move.name + "'s move. A Check isn't possible.")
   }
 }
 
 const bet = function () {
   if (betPossible()) {
-
+    game.count_matching_current_bet = 1
   } else {
-    $('#status-indicator').html("A Bet/Raise isn't possible")
-    $('#status-indicator').css('color', 'red')
-    setTimeout(function () {
-      $('#status-indicator').html(game.current_move.name + "'s move.")
-      $('#status-indicator').css('color', 'black')
-    }, 3000)
+    $('#status-indicator').html(game.current_move.name + "'s move. A Bet/Raise isn't possible.")
   }
 }
 
 const call = function () {
   if (callPossible()) {
-
+    game.count_matching_current_bet += 1
+    if (allCalled()) {
+      incrementPhase()
+      return
+    }
+    setCurrentMove()
   } else {
-    $('#status-indicator').html("A Call isn't possible.")
-    $('#status-indicator').css('color', 'red')
-    setTimeout(function () {
-      $('#status-indicator').html(game.current_move.name + "'s move.")
-      $('#status-indicator').css('color', 'black')
-    }, 3000)
+    $('#status-indicator').html(game.current_move.name + "'s move. A Call isn't possible.")
   }
 }
 
@@ -279,6 +283,11 @@ const fold = function () {
     return
   }
   $('#status-indicator').html(game.current_move.name + "'s move.")
+}
+
+// Call to perform all actions when a round ends
+const triggerEndOfRound = function () {
+
 }
 
 // TEMPORARY FUNCTION
@@ -301,5 +310,7 @@ module.exports = {
   setCurrentBet,
   updateCurrentBet,
   setPersonalBetCountsZero,
-  incrementPhase
+  incrementPhase,
+  triggerEndOfRound,
+  allCalled
 }
