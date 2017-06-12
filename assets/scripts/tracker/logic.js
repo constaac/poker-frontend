@@ -35,12 +35,14 @@ const game = {
   phase: phases[0],
   phase_count: 0,
   first_to_bet: undefined,
+  first_to_bet_index: undefined,
   small_blind: undefined,
   big_blind: undefined,
   current_move: undefined,
   current_move_index: undefined,
-  current_bet_count: undefined,
-  count_matching_current_bet: undefined,
+  current_bet_count: 0,
+  count_matching_current_bet: 0,
+  count_checked: 0,
   playing: [],
   p1: players[0],
   p2: players[1],
@@ -106,20 +108,25 @@ const calcBlinds = function () {
     game.small_blind = game.playing[smallBlind]
     game.big_blind = game.playing[bigBlind]
     game.playing[bigBlind].personal_bet_count = 1
-    game.first_to_bet = game.playing[currentMove]
+    const tempFirstToBet = players.find((element) => { return element === game.playing[currentMove] })
+    game.first_to_bet = tempFirstToBet
+    game.first_to_bet_index = currentMove
     game.current_move = game.playing[currentMove]
     game.current_move_index = currentMove
   } else {
     game.small_blind = game.playing[startPosition]
     game.big_blind = game.playing[smallBlind]
     game.playing[smallBlind].personal_bet_count = 1
-    game.first_to_bet = game.playing[startPosition]
+    const tempFirstToBet = players.find((element) => { return element === game.playing[startPosition] })
+    game.first_to_bet = tempFirstToBet
+    game.first_to_bet_index = startPosition
     game.current_move = game.playing[startPosition]
     game.current_move_index = startPosition
   }
   game.phase_count = 0
   game.phase = phases[0]
   setCurrentBet(true)
+  game.count_matching_current_bet = 1
 }
 
 const displayDealerMenu = function () {
@@ -162,6 +169,7 @@ const onStartRound = function () {
 }
 
 const setCurrentMove = function (x) {
+  // PROBLEM MAY LIE HERE
   let currentMoveHolder = x + 1
   if (currentMoveHolder === game.playing.length) {
     currentMoveHolder = 0
@@ -186,8 +194,9 @@ const setCurrentBet = function (condition) {
     game.count_matching_current_bet = 0
     if (condition) {
       return
+    } else {
+      setPersonalBetCountsZero()
     }
-    setPersonalBetCountsZero()
   }
 }
 
@@ -201,6 +210,13 @@ const incrementPhase = function (condition) {
     game.phase_count += 1
     game.phase = phases[game.phase_count]
     setCurrentBet()
+    game.count_checked = 0
+    game.count_matching_current_bet = 0
+    game.current_move = game.first_to_bet
+    // May need to add  to fold function to manipulate this variable as indexes change
+    const tempFirstToBetIndex = game.playing.findIndex((element) => { return element === game.current_move })
+    game.current_move_index = tempFirstToBetIndex
+    $('#status-indicator').html('The ' + game.phase + " has begun. It's " + game.current_move.name + "'s move.")
   } else if (game.phase_count === 4) {
     $('#status-indicator').html('This round is over.')
     triggerEndOfRound()
@@ -236,8 +252,31 @@ const callPossible = function () {
   }
 }
 
+const positionBehindBigBlind = function () {
+  const bigBlindIndex = game.playing.findIndex((element) => { return element === game.big_blind })
+  if (bigBlindIndex === (game.current_move_index + 1)) {
+    console.log('position behind big blind returns true')
+    return true
+  } else {
+    return false
+  }
+}
+
 const allCalled = function () {
+  // add function to check if phase 1 and allow big blind to check/bet
+  if (game.phase_count === 0 && game.current_bet_count === 1 && positionBehindBigBlind()) {
+    return false
+  }
   if (game.count_matching_current_bet === game.playing.length) {
+    return true
+  } else {
+    return false
+  }
+}
+
+const allChecked = function () {
+  // add function to check if phase 1 and allow big blind to check/bet
+  if (game.count_checked === game.playing.length) {
     return true
   } else {
     return false
@@ -246,7 +285,15 @@ const allCalled = function () {
 
 const check = function () {
   if (checkPossible()) {
-    setCurrentMove()
+    game.count_checked += 1
+    // CAN CURRENTLY CHECK FOREVER - PROBLEM - All called could throw problems - beware
+    if (allChecked() || allCalled()) {
+      console.log('all checked has been satisfied and has fired')
+      incrementPhase()
+      return
+    }
+    // NEEDS WORK?
+    setCurrentMove(game.current_move_index)
     $('#status-indicator').html(game.current_move.name + "'s move.")
   } else {
     $('#status-indicator').html(game.current_move.name + "'s move. A Check isn't possible.")
@@ -255,20 +302,32 @@ const check = function () {
 
 const bet = function () {
   if (betPossible()) {
+    // NEEDS Check for Reraise
     game.count_matching_current_bet = 1
+    game.current_bet_count += 1
+    game.current_move.personal_bet_count = game.current_bet_count
+    game.count_checked = 0
+    setCurrentMove(game.current_move_index)
+    $('#status-indicator').html(game.current_move.name + "'s move.")
   } else {
     $('#status-indicator').html(game.current_move.name + "'s move. A Bet/Raise isn't possible.")
   }
 }
 
 const call = function () {
+  // console.log(game)
+  // DOESNT allow big blind to raise after all calls
   if (callPossible()) {
+    console.log('count matching current bet is')
+    console.log(game.count_matching_current_bet)
     game.count_matching_current_bet += 1
+    console.log('count matching current bet is now')
+    console.log(game.count_matching_current_bet)
     if (allCalled()) {
       incrementPhase()
       return
     }
-    setCurrentMove()
+    setCurrentMove(game.current_move_index)
     $('#status-indicator').html(game.current_move.name + "'s move.")
   } else {
     $('#status-indicator').html(game.current_move.name + "'s move. A Call isn't possible.")
@@ -315,5 +374,6 @@ module.exports = {
   setPersonalBetCountsZero,
   incrementPhase,
   triggerEndOfRound,
-  allCalled
+  allCalled,
+  positionBehindBigBlind
 }
