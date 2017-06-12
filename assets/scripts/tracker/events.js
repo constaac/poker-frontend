@@ -16,6 +16,10 @@ const addHandlers = () => {
   $('#start-round-btn').on('click', logic.onStartRound)
   $('#set-table-btn').on('click', ui.openSetSeats)
   $('#teststats').on('click', logic.teststats)
+  $('#bet-button').on('click', logic.bet)
+  $('#call-button').on('click', logic.call)
+  $('#check-button').on('click', logic.check)
+  $('#fold-button').on('click', logic.fold)
 }
 
 module.exports = {

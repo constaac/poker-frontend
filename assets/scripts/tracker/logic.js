@@ -166,7 +166,8 @@ const setCurrentMove = function (x) {
     currentMoveHolder = 0
   }
   game.current_move_index = currentMoveHolder
-  game.current_move = game.playing[currentMoveHolder]
+  const tempCurrentPlayer = players.find((element) => { return element === game.playing[currentMoveHolder] })
+  game.current_move = tempCurrentPlayer
 }
 
 const setPersonalBetCountsZero = function () {
@@ -187,8 +188,13 @@ const setCurrentBet = function (condition) {
   }
 }
 
-const incrementPhase = function () {
-  if (game.phase_count) {
+const incrementPhase = function (condition) {
+  if (condition) {
+    game.phase_count = 0
+    game.phase = phases[0]
+    setCurrentBet()
+    return
+  } else if (game.phase_count < 4) {
     game.phase_count += 1
     game.phase = phases[game.phase_count]
     setCurrentBet()
@@ -200,31 +206,79 @@ const updateCurrentBet = function () {
 }
 
 const checkPossible = function () {
-
+  if (game.current_move.personal_bet_count === game.current_bet_count) {
+    return true
+  } else {
+    return false
+  }
 }
 
 const betPossible = function () {
-
+  if (game.current_move.personal_bet_count <= game.current_bet_count) {
+    return true
+  } else {
+    return false
+  }
 }
 
 const callPossible = function () {
-
+  if (game.current_move.personal_bet_count < game.current_bet_count) {
+    return true
+  } else {
+    return false
+  }
 }
 
 const check = function () {
+  if (checkPossible()) {
 
+  } else {
+    $('#status-indicator').html("A Check isn't possible.")
+    $('#status-indicator').css('color', 'red')
+    setTimeout(function () {
+      $('#status-indicator').html(game.current_move.name + "'s move.")
+      $('#status-indicator').css('color', 'black')
+    }, 3000)
+  }
 }
 
 const bet = function () {
+  if (betPossible()) {
 
+  } else {
+    $('#status-indicator').html("A Bet/Raise isn't possible")
+    $('#status-indicator').css('color', 'red')
+    setTimeout(function () {
+      $('#status-indicator').html(game.current_move.name + "'s move.")
+      $('#status-indicator').css('color', 'black')
+    }, 3000)
+  }
 }
 
 const call = function () {
+  if (callPossible()) {
 
+  } else {
+    $('#status-indicator').html("A Call isn't possible.")
+    $('#status-indicator').css('color', 'red')
+    setTimeout(function () {
+      $('#status-indicator').html(game.current_move.name + "'s move.")
+      $('#status-indicator').css('color', 'black')
+    }, 3000)
+  }
 }
 
 const fold = function () {
-
+  const index = game.playing.findIndex((element) => { return element === game.current_move })
+  game.playing.splice(index, 1)
+  game.current_move_index -= 1
+  setCurrentMove(game.current_move_index)
+  if (game.playing.length < 2) {
+    $('#status-indicator').html('This round is over.')
+    // DO STUFF HERE FOR ROUND END BY ALL FOLDING
+    return
+  }
+  $('#status-indicator').html(game.current_move.name + "'s move.")
 }
 
 // TEMPORARY FUNCTION
