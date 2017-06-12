@@ -105,6 +105,7 @@ const calcBlinds = function () {
     game.small_blind = game.playing[smallBlind]
     game.big_blind = game.playing[bigBlind]
     game.playing[bigBlind].personal_bet_count = 1
+    game.first_to_bet = game.playing[currentMove]
     game.current_move = game.playing[currentMove]
     game.current_move_index = currentMove
   } else {
@@ -117,6 +118,7 @@ const calcBlinds = function () {
   }
   game.phase_count = 0
   game.phase = phases[0]
+  setCurrentBet(true)
 }
 
 const displayDealerMenu = function () {
@@ -173,17 +175,24 @@ const setPersonalBetCountsZero = function () {
   }
 }
 
-const setCurrentBet = function () {
+const setCurrentBet = function (condition) {
   if (game.phase === phases[0]) {
     game.current_bet_count = 1
   } else {
     game.current_bet_count = 0
+    if (condition) {
+      return
+    }
+    setPersonalBetCountsZero()
   }
 }
 
 const incrementPhase = function () {
-  game.phase_count += 1
-  game.phase = phases[game.phase_count]
+  if (game.phase_count) {
+    game.phase_count += 1
+    game.phase = phases[game.phase_count]
+    setCurrentBet()
+  }
 }
 
 const updateCurrentBet = function () {
@@ -237,5 +246,6 @@ module.exports = {
   setCurrentMove,
   setCurrentBet,
   updateCurrentBet,
-  setPersonalBetCountsZero
+  setPersonalBetCountsZero,
+  incrementPhase
 }
