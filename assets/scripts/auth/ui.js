@@ -56,6 +56,7 @@ const logoutSuccess = (data) => {
   $('.dealer-menu-container').css('display', 'none')
   $('.dealer-menu').empty()
   trackerlogic.game.active = false
+  trackerlogic.game.playing = []
   toggleGameButtons()
 }
 
