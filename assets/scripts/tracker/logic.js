@@ -476,7 +476,25 @@ const triggerEndOfRound = function (condition) {
 // TEMPORARY FUNCTION
 const teststats = function () {
   console.log(game)
+  $('#stats-table').empty()
+  $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP</th><th>PFR</th><th>3Bet PreFlop</th></tr></thead>')
+  for (let i = 0; i < players.length; i++) {
+    if (players[i].sitting) {
+      const totalHands = players[i].hand_count + players[i].hand_count_career
+      const totalRaisesOrCallsPF = players[i].call_or_raise_preflop + players[i].call_or_raise_preflop_career
+      const totalRaisesPF = players[i].raise_preflop + players[i].raise_preflop_career
+      const totalReRaisePF = players[i].reraise_preflop + players[i].reraise_preflop_career
+      const totalCallToRaisePF = players[i].call_to_raise_preflop + players[i].call_to_raise_preflop_career
+      const VPIP = ((totalRaisesOrCallsPF / totalHands) * 100).toFixed(2)
+      const PFR = ((totalRaisesPF / totalHands) * 100).toFixed(2)
+      const ThreeBetPF = ((totalReRaisePF / (totalReRaisePF + totalCallToRaisePF)) * 100).toFixed(2)
+      $('#stats-table').append('<tr><td>' + players[i].name + '</td><td>' + totalHands + '</td><td>' + VPIP + '</td><td>' + PFR + '</td><td>' + ThreeBetPF + '</td></tr>')
+    }
+  }
+  $('#statisticsModal').modal('show')
 }
+
+// <tr><td>some shit</td><td>4%</td><td>25%</td><td>30%</td></tr>
 
 module.exports = {
   onStartRound,
