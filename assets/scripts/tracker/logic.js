@@ -11,10 +11,17 @@ const Player = function (x) {
   this.is_user = false
   this.is_dealer = false
   this.hand_count = 0
+  this.hand_count_career = 0
   this.call_preflop = 0
+  this.call_preflop_career = 0
   this.raise_preflop = 0
+  this.raise_preflop_career
+  this.call_or_raise_preflop = 0
+  this.call_or_raise_preflop_career = 0
   this.reraise_preflop = 0
+  this.reraise_preflop_career
   this.fold_on_reraise_preflop = 0
+  this.fold_on_reraise_preflop_career = 0
   this.personal_bet_count = 0
 }
 
@@ -225,10 +232,6 @@ const incrementPhase = function (condition) {
   }
 }
 
-const updateCurrentBet = function () {
-
-}
-
 const checkPossible = function () {
   if (game.current_move.personal_bet_count === game.current_bet_count) {
     return true
@@ -424,7 +427,6 @@ module.exports = {
   callPossible,
   setCurrentMove,
   setCurrentBet,
-  updateCurrentBet,
   setPersonalBetCountsZero,
   incrementPhase,
   triggerEndOfRound,
