@@ -21,9 +21,12 @@ const Player = function (x) {
   this.call_or_raise_preflop = 0
   this.call_or_raise_preflop_career = 0
   this.reraise_preflop = 0
-  this.reraise_preflop_career
-  this.call_to_reraise_preflop = 0
-  this.call_to_reraise_preflop_career = 0
+  this.reraise_preflop_career = 0
+  this.has_reraised_preflop = 0
+  this.call_to_raise_preflop = 0
+  this.call_to_raise_preflop_career = 0
+  this.has_called_to_raise_preflop = false
+  this.has_called_or_reraised_to_raise_preflop = false
   this.fold_on_reraise_preflop = 0
   this.fold_on_reraise_preflop_career = 0
   this.personal_bet_count = 0
@@ -343,9 +346,26 @@ const testVPIP = function () {
   }
 }
 
+const test3BetReRaise = function () {
+  if (testReRaise() && game.phase_count === 0 && !(game.current_move.has_reraised_preflop)) {
+    game.current_move.has_reraised_preflop = true
+    game.current_move.has_called_or_reraised_to_raise_preflop = true
+    game.current_move.reraise_preflop += 1
+  }
+}
+
+const test3BetCallToRaise = function () {
+  if ((game.current_bet_count > 1) && (game.phase_count === 0) && !(game.current_move.has_called_or_reraised_to_raise_preflop)) {
+    game.current_move.has_called_to_raise_preflop = true
+    game.current_move.has_called_or_reraised_to_raise_preflop = true
+    game.current_move.call_to_raise_preflop += 1
+  }
+}
+
 const bet = function () {
   if (betPossible()) {
     testPFR()
+    test3BetReRaise()
     game.count_matching_current_bet = 1
     game.current_bet_count += 1
     // check reraise goes here
@@ -360,7 +380,8 @@ const bet = function () {
 
 const call = function () {
   if (callPossible()) {
-    testVPIP
+    testVPIP()
+    test3BetCallToRaise()
     game.count_matching_current_bet += 1
     if (allCalled()) {
       incrementPhase()
@@ -386,16 +407,19 @@ const fold = function () {
   setCurrentMove(game.current_move_index)
   if (game.playing.length < 2) {
     triggerEndOfRound()
-    // DO STUFF HERE FOR ROUND END BY ALL FOLDING
     return
   }
   $('#status-indicator').html(game.current_move.name + "'s move.")
 }
 
+// RENAME this function
 const resetHasRaisedOrCalledPreflop = function () {
   for (let i = 0; i < players.length; i++) {
     players[i].has_raised_or_called_preflop = false
     players[i].has_raised_preflop = false
+    players[i].has_reraised_preflop = false
+    players[i].has_called_to_raise_preflop = false
+    players[i].has_called_or_reraised_to_raise_preflop = false
   }
 }
 
@@ -452,7 +476,6 @@ const triggerEndOfRound = function (condition) {
 // TEMPORARY FUNCTION
 const teststats = function () {
   console.log(game)
-  console.log(store)
 }
 
 module.exports = {
