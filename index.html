@@ -55,11 +55,7 @@
           <u>Select the Dealer</u>
         </div>
         <ul class="dealer-menu pagination pagination-sm">
-          <li><a>1</a></li>
-          <li><a>1</a></li>
-          <li><a>1</a></li>
-          <li><a>1</a></li>
-          <li><a>1</a></li>
+
         </ul>
       </div>
       <div class="col-xs-12">
@@ -82,7 +78,7 @@
       </div>
     </div>
     <div class="well">
-      <span id="status-indicator">Error messages will display here</span>
+      <span id="status-indicator">Welcome! Set the Table and then Begin a Round</span>
     </div>
   </div>
 
@@ -134,19 +130,25 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
               <div class="col-sm-10">
-                <input type="email" class="form-control" placeholder="Email" name="credentials[email]">
+                <input type="email" class="form-control" placeholder="Email" name="credentials[email]" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputName3" class="col-sm-2 control-label">Name:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Full Name" name="credentials[name]" required>
               </div>
             </div>
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">Password:</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" placeholder="Password" name="credentials[password]">
+                <input type="password" class="form-control" placeholder="Password" name="credentials[password]" required>
               </div>
             </div>
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">Password Confirmation:</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" placeholder="Password Again" name="credentials[password_confirmation]">
+                <input type="password" class="form-control" placeholder="Password Again" name="credentials[password_confirmation]" required>
               </div>
             </div>
             <div class="form-group">
@@ -174,13 +176,13 @@
             <div class="form-group">
               <label for="inputEmail3" class="col-sm-2 control-label">Old Password:</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" placeholder="Old Password" name="[passwords][old]">
+                <input type="password" class="form-control" placeholder="Old Password" name="[passwords][old]" required>
               </div>
             </div>
             <div class="form-group">
               <label for="inputPassword3" class="col-sm-2 control-label">New Password:</label>
               <div class="col-sm-10">
-                <input type="password" class="form-control" placeholder="New Password" name="[passwords][new]">
+                <input type="password" class="form-control" placeholder="New Password" name="[passwords][new]" required>
               </div>
             </div>
             <div class="form-group">
@@ -214,7 +216,7 @@
             <li><a type="button" class="btn" id="seat-button-8">8</a></li>
             <li><a type="button" class="btn" id="seat-button-9">9</a></li>
             <li><a type="button" class="btn" id="seat-button-10">10</a></li>
-          </ul>
+          </ul><br>
           <div id="seats-table" class="panel panel-default">
 
           </div><br>

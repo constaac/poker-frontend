@@ -42,6 +42,7 @@ const logoutSuccess = (data) => {
   $('#seats-table').empty()
   trackerui.resetSeats()
   trackerlogic.triggerEndOfRound(true)
+  $('#status-indicator').text('Welcome! Set the Table and then Begin a Round')
 }
 
 const logoutFailure = () => {
