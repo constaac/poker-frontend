@@ -35,29 +35,13 @@ const signInFailure = (error) => {
   }, 3000)
 }
 
-const toggleGameButtons = function () {
-  $('#bet-button').attr('disabled', 'disabled')
-  $('#call-button').attr('disabled', 'disabled')
-  $('#check-button').attr('disabled', 'disabled')
-  $('#fold-button').attr('disabled', 'disabled')
-}
-
 const logoutSuccess = (data) => {
   $('.start-inline').fadeIn().css('display', 'inline')
   $('.start-display-none').fadeOut().css('display', 'none')
   $('#outcome-indicator').text('')
   $('#seats-table').empty()
   trackerui.resetSeats()
-  $('#start-round-btn').css('display', 'block')
-  $('#set-table-btn').on('click', () => {
-    $('#tableModal').modal('show')
-  })
-  $('#set-table-btn').removeAttr('disabled')
-  $('.dealer-menu-container').css('display', 'none')
-  $('.dealer-menu').empty()
-  trackerlogic.game.active = false
-  trackerlogic.game.playing = []
-  toggleGameButtons()
+  trackerlogic.triggerEndOfRound(true)
 }
 
 const logoutFailure = () => {

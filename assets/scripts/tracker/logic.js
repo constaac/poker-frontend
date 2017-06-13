@@ -30,7 +30,7 @@ makePlayers()
 
 const phases = ['Pre-Flop', 'Flop', 'Turn', 'River']
 
-const game = {
+let game = {
   active: false,
   phase: phases[0],
   phase_count: 0,
@@ -80,8 +80,10 @@ const toggleGameButtons = function () {
 }
 
 const checkEndOfArray = function (x) {
-  if (x + 1 === game.playing.length) {
+  if (x === game.playing.length) {
     return true
+  } else {
+    return false
   }
 }
 
@@ -93,15 +95,15 @@ const calcBlinds = function () {
     }
   }
   let smallBlind = startPosition + 1
-  let bigBlind = smallBlind + 1
-  let currentMove = bigBlind + 1
-  if (checkEndOfArray(startPosition)) {
+  if (checkEndOfArray(smallBlind)) {
     smallBlind = 0
   }
-  if (checkEndOfArray(smallBlind)) {
+  let bigBlind = smallBlind + 1
+  if (checkEndOfArray(bigBlind)) {
     bigBlind = 0
   }
-  if (checkEndOfArray(bigBlind)) {
+  let currentMove = bigBlind + 1
+  if (checkEndOfArray(currentMove)) {
     currentMove = 0
   }
   if (game.playing.length > 2) {
@@ -140,6 +142,7 @@ const displayDealerMenu = function () {
         game.active = true
         toggleGameButtons()
         calcBlinds()
+        console.log(game.current_move.name)
         $('#status-indicator').text(game.current_move.name + "'s turn.")
       })
     }
@@ -206,19 +209,17 @@ const incrementPhase = function (condition) {
     game.phase = phases[0]
     setCurrentBet()
     return
-  } else if (game.phase_count < 4) {
+  } else if (game.phase_count < 3) {
     game.phase_count += 1
     game.phase = phases[game.phase_count]
     setCurrentBet()
     game.count_checked = 0
     game.count_matching_current_bet = 0
     game.current_move = game.first_to_bet
-    // May need to add  to fold function to manipulate this variable as indexes change
     const tempFirstToBetIndex = game.playing.findIndex((element) => { return element === game.current_move })
     game.current_move_index = tempFirstToBetIndex
     $('#status-indicator').html('The ' + game.phase + " has begun. It's " + game.current_move.name + "'s move.")
-  } else if (game.phase_count === 4) {
-    $('#status-indicator').html('This round is over.')
+  } else if (game.phase_count === 3) {
     triggerEndOfRound()
     return
   }
@@ -288,7 +289,10 @@ const check = function () {
     game.count_checked += 1
     // CAN CURRENTLY CHECK FOREVER - PROBLEM - All called could throw problems - beware
     if (allChecked() || allCalled()) {
-      console.log('all checked has been satisfied and has fired')
+      if (game.phase_count === 3) {
+        triggerEndOfRound()
+        return
+      }
       incrementPhase()
       return
     }
@@ -336,11 +340,17 @@ const call = function () {
 
 const fold = function () {
   const index = game.playing.findIndex((element) => { return element === game.current_move })
+  let indexNext = index + 1
+  if (checkEndOfArray(indexNext)) {
+    indexNext = 0
+  }
+  game.first_to_bet = game.playing[indexNext]
+  game.first_to_bet_index = indexNext
   game.playing.splice(index, 1)
   game.current_move_index -= 1
   setCurrentMove(game.current_move_index)
   if (game.playing.length < 2) {
-    $('#status-indicator').html('This round is over.')
+    triggerEndOfRound()
     // DO STUFF HERE FOR ROUND END BY ALL FOLDING
     return
   }
@@ -348,8 +358,52 @@ const fold = function () {
 }
 
 // Call to perform all actions when a round ends
-const triggerEndOfRound = function () {
-
+const triggerEndOfRound = function (condition) {
+  $('#status-indicator').html('This round is over.')
+  game = {
+    active: false,
+    phase: phases[0],
+    phase_count: 0,
+    first_to_bet: undefined,
+    first_to_bet_index: undefined,
+    small_blind: undefined,
+    big_blind: undefined,
+    current_move: undefined,
+    current_move_index: undefined,
+    current_bet_count: 0,
+    count_matching_current_bet: 0,
+    count_checked: 0,
+    playing: [],
+    p1: players[0],
+    p2: players[1],
+    p3: players[2],
+    p4: players[3],
+    p5: players[4],
+    p6: players[5],
+    p7: players[6],
+    p8: players[7],
+    p9: players[8],
+    p10: players[9]
+  }
+  $('#start-round-btn').css('display', 'block')
+  $('#set-table-btn').on('click', () => {
+    $('#tableModal').modal('show')
+  })
+  $('#set-table-btn').removeAttr('disabled')
+  $('.dealer-menu-container').css('display', 'none')
+  $('.dealer-menu').empty()
+  $('#start-round-btn').css('display', 'block')
+  $('#set-table-btn').on('click', () => {
+    $('#tableModal').modal('show')
+  })
+  $('#set-table-btn').removeAttr('disabled')
+  $('.dealer-menu-container').css('display', 'none')
+  $('.dealer-menu').empty()
+  toggleGameButtons()
+  setPersonalBetCountsZero()
+  if (condition) {
+    $('#status-indicator').html('')
+  }
 }
 
 // TEMPORARY FUNCTION
