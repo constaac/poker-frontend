@@ -16,10 +16,14 @@ const Player = function (x) {
   this.call_preflop_career = 0
   this.raise_preflop = 0
   this.raise_preflop_career
+  this.has_raised_preflop = false
+  this.has_raised_or_called_preflop = false
   this.call_or_raise_preflop = 0
   this.call_or_raise_preflop_career = 0
   this.reraise_preflop = 0
   this.reraise_preflop_career
+  this.call_to_reraise_preflop = 0
+  this.call_to_reraise_preflop_career = 0
   this.fold_on_reraise_preflop = 0
   this.fold_on_reraise_preflop_career = 0
   this.personal_bet_count = 0
@@ -151,6 +155,9 @@ const displayDealerMenu = function () {
         calcBlinds()
         console.log(game.current_move.name)
         $('#status-indicator').text(game.current_move.name + "'s turn.")
+        for (let t = 0; t < game.playing.length; t++) {
+          game.playing[t].hand_count += 1
+        }
       })
     }
   }
@@ -176,6 +183,7 @@ const onStartRound = function () {
   $('#set-table-btn').off('click')
   $('#set-table-btn').attr('disabled', 'disabled')
   displayDealerMenu()
+  $('#status-indicator').text('Select the Dealer.')
 }
 
 const setCurrentMove = function (x) {
@@ -287,10 +295,21 @@ const allChecked = function () {
   }
 }
 
+const testRaise = function () {
+  if (game.current_move.personal_bet_count < game.current_bet_count) {
+    return true
+  }
+}
+
+const testReRaise = function () {
+  if ((game.current_bet_count - game.current_move.personal_bet_count) > 1) {
+    return true
+  }
+}
+
 const check = function () {
   if (checkPossible()) {
     game.count_checked += 1
-    // CAN CURRENTLY CHECK FOREVER - PROBLEM - All called could throw problems - beware
     if (allChecked() || allCalled()) {
       if (game.phase_count === 3) {
         triggerEndOfRound()
@@ -299,7 +318,6 @@ const check = function () {
       incrementPhase()
       return
     }
-    // NEEDS WORK?
     setCurrentMove(game.current_move_index)
     $('#status-indicator').html(game.current_move.name + "'s move.")
   } else {
@@ -307,11 +325,30 @@ const check = function () {
   }
 }
 
+const testPFR = function () {
+  if (testRaise() && !(game.current_move.has_raised_preflop) && game.phase_count === 0) {
+    game.current_move.has_raised_preflop = true
+    game.current_move.raise_preflop += 1
+    if (game.current_move.has_raised_or_called_preflop === false) {
+      game.current_move.call_or_raise_preflop += 1
+    }
+    game.current_move.has_raised_or_called_preflop = true
+  }
+}
+
+const testVPIP = function () {
+  if (!(game.current_move.has_raised_or_called_preflop) && game.phase_count === 0) {
+    game.current_move.call_preflop += 1
+    game.current_move.call_or_raise_preflop += 1
+  }
+}
+
 const bet = function () {
   if (betPossible()) {
-    // NEEDS Check for Reraise
+    testPFR()
     game.count_matching_current_bet = 1
     game.current_bet_count += 1
+    // check reraise goes here
     game.current_move.personal_bet_count = game.current_bet_count
     game.count_checked = 0
     setCurrentMove(game.current_move_index)
@@ -322,14 +359,9 @@ const bet = function () {
 }
 
 const call = function () {
-  // console.log(game)
-  // DOESNT allow big blind to raise after all calls
   if (callPossible()) {
-    console.log('count matching current bet is')
-    console.log(game.count_matching_current_bet)
+    testVPIP
     game.count_matching_current_bet += 1
-    console.log('count matching current bet is now')
-    console.log(game.count_matching_current_bet)
     if (allCalled()) {
       incrementPhase()
       return
@@ -360,6 +392,13 @@ const fold = function () {
   $('#status-indicator').html(game.current_move.name + "'s move.")
 }
 
+const resetHasRaisedOrCalledPreflop = function () {
+  for (let i = 0; i < players.length; i++) {
+    players[i].has_raised_or_called_preflop = false
+    players[i].has_raised_preflop = false
+  }
+}
+
 // Call to perform all actions when a round ends
 const triggerEndOfRound = function (condition) {
   $('#status-indicator').html('This round is over.')
@@ -388,6 +427,7 @@ const triggerEndOfRound = function (condition) {
     p9: players[8],
     p10: players[9]
   }
+  resetHasRaisedOrCalledPreflop()
   $('#start-round-btn').css('display', 'block')
   $('#set-table-btn').on('click', () => {
     $('#tableModal').modal('show')
@@ -412,6 +452,7 @@ const triggerEndOfRound = function (condition) {
 // TEMPORARY FUNCTION
 const teststats = function () {
   console.log(game)
+  console.log(store)
 }
 
 module.exports = {

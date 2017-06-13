@@ -36,7 +36,7 @@ const setOnCheckRadio = function (x) {
       }
       if (this.checked) {
         logic.game['p' + i].is_user = true
-        logic.game['p' + i].name = store.userEmail
+        logic.game['p' + i].name = store.userName
       }
     })
   }
