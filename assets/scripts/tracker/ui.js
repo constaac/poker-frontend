@@ -33,10 +33,12 @@ const setOnCheckRadio = function (x) {
       for (let k = 1; k <= count; k++) {
         logic.game['p' + k].is_user = false
         logic.game['p' + k].name = store['p' + k + 'name']
+        $('#playername' + k).text('Player ' + k)
       }
       if (this.checked) {
         logic.game['p' + i].is_user = true
         logic.game['p' + i].name = store.userName
+        $('#playername' + i).text(store.userName)
       }
     })
   }
@@ -48,6 +50,7 @@ const openSetSeats = () => {
 
 const onSetSeat2 = () => {
   resetSeats()
+  $('.load-save-menu').css('display', 'block')
   const showSeatsHtml = setSeatsNumber({ list: [1, 2] })
   $('#seats-table').empty()
   $('#seats-table').append(showSeatsHtml)
@@ -57,6 +60,7 @@ const onSetSeat2 = () => {
 
 const onSetSeat3 = () => {
   resetSeats()
+  $('.load-save-menu').css('display', 'block')
   const showSeatsHtml = setSeatsNumber({ list: [1, 2, 3] })
   $('#seats-table').empty()
   $('#seats-table').append(showSeatsHtml)
@@ -66,6 +70,7 @@ const onSetSeat3 = () => {
 
 const onSetSeat4 = () => {
   resetSeats()
+  $('.load-save-menu').css('display', 'block')
   const showSeatsHtml = setSeatsNumber({ list: [1, 2, 3, 4] })
   $('#seats-table').empty()
   $('#seats-table').append(showSeatsHtml)
@@ -75,6 +80,7 @@ const onSetSeat4 = () => {
 
 const onSetSeat5 = () => {
   resetSeats()
+  $('.load-save-menu').css('display', 'block')
   const showSeatsHtml = setSeatsNumber({ list: [1, 2, 3, 4, 5] })
   $('#seats-table').empty()
   $('#seats-table').append(showSeatsHtml)
@@ -84,6 +90,7 @@ const onSetSeat5 = () => {
 
 const onSetSeat6 = () => {
   resetSeats()
+  $('.load-save-menu').css('display', 'block')
   const showSeatsHtml = setSeatsNumber({ list: [1, 2, 3, 4, 5, 6] })
   $('#seats-table').empty()
   $('#seats-table').append(showSeatsHtml)
@@ -93,6 +100,7 @@ const onSetSeat6 = () => {
 
 const onSetSeat7 = () => {
   resetSeats()
+  $('.load-save-menu').css('display', 'block')
   const showSeatsHtml = setSeatsNumber({ list: [1, 2, 3, 4, 5, 6, 7] })
   $('#seats-table').empty()
   $('#seats-table').append(showSeatsHtml)
@@ -102,6 +110,7 @@ const onSetSeat7 = () => {
 
 const onSetSeat8 = () => {
   resetSeats()
+  $('.load-save-menu').css('display', 'block')
   const showSeatsHtml = setSeatsNumber({ list: [1, 2, 3, 4, 5, 6, 7, 8] })
   $('#seats-table').empty()
   $('#seats-table').append(showSeatsHtml)
@@ -111,6 +120,7 @@ const onSetSeat8 = () => {
 
 const onSetSeat9 = () => {
   resetSeats()
+  $('.load-save-menu').css('display', 'block')
   const showSeatsHtml = setSeatsNumber({ list: [1, 2, 3, 4, 5, 6, 7, 8, 9] })
   $('#seats-table').empty()
   $('#seats-table').append(showSeatsHtml)
@@ -120,6 +130,7 @@ const onSetSeat9 = () => {
 
 const onSetSeat10 = () => {
   resetSeats()
+  $('.load-save-menu').css('display', 'block')
   const showSeatsHtml = setSeatsNumber({ list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] })
   $('#seats-table').empty()
   $('#seats-table').append(showSeatsHtml)

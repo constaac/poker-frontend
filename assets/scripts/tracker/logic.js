@@ -15,14 +15,14 @@ const Player = function (x) {
   this.call_preflop = 0
   this.call_preflop_career = 0
   this.raise_preflop = 0
-  this.raise_preflop_career
+  this.raise_preflop_career = 0
   this.has_raised_preflop = false
   this.has_raised_or_called_preflop = false
   this.call_or_raise_preflop = 0
   this.call_or_raise_preflop_career = 0
   this.reraise_preflop = 0
   this.reraise_preflop_career = 0
-  this.has_reraised_preflop = 0
+  this.has_reraised_preflop = false
   this.call_to_raise_preflop = 0
   this.call_to_raise_preflop_career = 0
   this.has_called_to_raise_preflop = false
@@ -170,6 +170,7 @@ const displayDealerMenu = function () {
 const onStartRound = function () {
   for (let j = 1; j <= 10; j++) {
     if (game['p' + j].playing) {
+      game['p' + j].is_dealer = false
       game.playing.push(game['p' + j])
     }
   }
@@ -343,6 +344,7 @@ const testVPIP = function () {
   if (!(game.current_move.has_raised_or_called_preflop) && game.phase_count === 0) {
     game.current_move.call_preflop += 1
     game.current_move.call_or_raise_preflop += 1
+    game.current_move.has_raised_or_called_preflop = true
   }
 }
 
@@ -481,14 +483,21 @@ const teststats = function () {
   for (let i = 0; i < players.length; i++) {
     if (players[i].sitting) {
       const totalHands = players[i].hand_count + players[i].hand_count_career
-      const totalRaisesOrCallsPF = players[i].call_or_raise_preflop + players[i].call_or_raise_preflop_career
-      const totalRaisesPF = players[i].raise_preflop + players[i].raise_preflop_career
-      const totalReRaisePF = players[i].reraise_preflop + players[i].reraise_preflop_career
-      const totalCallToRaisePF = players[i].call_to_raise_preflop + players[i].call_to_raise_preflop_career
-      const VPIP = ((totalRaisesOrCallsPF / totalHands) * 100).toFixed(2)
-      const PFR = ((totalRaisesPF / totalHands) * 100).toFixed(2)
-      const ThreeBetPF = ((totalReRaisePF / (totalReRaisePF + totalCallToRaisePF)) * 100).toFixed(2)
-      $('#stats-table').append('<tr><td>' + players[i].name + '</td><td>' + totalHands + '</td><td>' + VPIP + '</td><td>' + PFR + '</td><td>' + ThreeBetPF + '</td></tr>')
+      if (totalHands === 0) {
+        $('#stats-table').append('<tr><td>' + players[i].name + '</td><td>' + totalHands + '</td><td>' + 0 + '%</td><td>' + 0 + '%</td><td>' + 0 + '%</td></tr>')
+      } else {
+        const totalRaisesOrCallsPF = players[i].call_or_raise_preflop + players[i].call_or_raise_preflop_career
+        const totalRaisesPF = players[i].raise_preflop + players[i].raise_preflop_career
+        const totalReRaisePF = players[i].reraise_preflop + players[i].reraise_preflop_career
+        const totalCallToRaisePF = players[i].call_to_raise_preflop + players[i].call_to_raise_preflop_career
+        const VPIP = ((totalRaisesOrCallsPF / totalHands) * 100).toFixed(2)
+        const PFR = ((totalRaisesPF / totalHands) * 100).toFixed(2)
+        let ThreeBetPF = ((totalReRaisePF / (totalReRaisePF + totalCallToRaisePF)) * 100).toFixed(2)
+        if ((totalReRaisePF === 0) && (totalCallToRaisePF === 0)) {
+          ThreeBetPF = 0
+        }
+        $('#stats-table').append('<tr><td>' + players[i].name + '</td><td>' + totalHands + '</td><td>' + VPIP + '%</td><td>' + PFR + '%</td><td>' + ThreeBetPF + '%</td></tr>')
+      }
     }
   }
   $('#statisticsModal').modal('show')

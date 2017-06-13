@@ -216,7 +216,39 @@
           </ul><br>
           <div id="seats-table" class="panel panel-default">
 
-          </div><br>
+          </div>
+          <div class="container-fluid load-save-menu">
+              <div class="row">
+                <label class="item-input item-select">
+                  Select Seat Number:
+                    <select id="seat-selector">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                  </select>
+                </label>
+              </div>
+              <div class="row">
+                <div class="item-input-inset">
+                  <label class="item-input-wrapper">
+                    <input id="player-name-field" type="text" placeholder="Enter Player Name">
+                  </label>
+                  <button class="btn btn-primary">
+                    Save
+                  </button>
+                  <button class="btn btn-primary">
+                    Load
+                  </button>
+                </div>
+              </div>
+          </div>
         </div>
       </div>
     </div>
@@ -232,7 +264,7 @@
         </div>
         <div class="modal-body">
           <div class="panel panel-default">
-            <table id="stats-table" class="table table-striped">
+            <table id="stats-table" class="table">
             </table>
           </div>
         </div>
