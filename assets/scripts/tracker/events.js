@@ -2,6 +2,7 @@
 
 const ui = require('./ui.js')
 const logic = require('./logic.js')
+const api = require('./api.js')
 
 const addHandlers = () => {
   $('#seat-button-2').on('click', ui.onSetSeat2)
@@ -20,6 +21,8 @@ const addHandlers = () => {
   $('#call-button').on('click', logic.call)
   $('#check-button').on('click', logic.check)
   $('#fold-button').on('click', logic.fold)
+  $('#player-save-btn').on('click', ui.)
+  $('#player-load-btn').on('click', api.)
 }
 
 module.exports = {
