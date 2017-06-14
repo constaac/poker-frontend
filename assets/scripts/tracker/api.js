@@ -5,7 +5,7 @@ const store = require('../store')
 const ui = require('./ui.js')
 const logic = require('./logic.js')
 
-const savePlayerHelper = function () {
+const createPlayerHelper = function () {
   let data = {}
   const thisIndex = $('#seat-selector').val()
   // Hasn't been saved yet
@@ -16,13 +16,13 @@ const savePlayerHelper = function () {
         name: logic.game['p' + thisIndex].name
       }
       createPlayer(data)
-        .then()
-        .catch()
+        .then(ui.onCreatePlayerSuccess)
+        .catch(ui.onCreatePlayerFailure)
       return
     }
     // User needs to enter a name
     if ($('#player-name-field').val() === '') {
-      $('#save-load-status').text('Name the player')
+      $('#save-load-status').text('Player needs to be named')
       $('#save-load-status').css('color', 'red')
       setTimeout(function () {
         $('#save-load-status').text('')
@@ -34,8 +34,10 @@ const savePlayerHelper = function () {
       name: $('#player-name-field').val()
     }
     createPlayer(data)
-      .then()
-      .catch()
+      .then(ui.onCreatePlayerSuccess)
+      .catch(ui.onCreatePlayerFailure)
+  } else {
+
   }
 }
 
@@ -52,7 +54,7 @@ const createPlayer = function (data) {
   })
 }
 
-const updatePlayer = function (playerdata) {
+const updatePlayer = function (playerdata, id) {
   return $.ajax({
     headers: {
       'Authorization': 'Token token=' + store.userToken
@@ -116,5 +118,5 @@ module.exports = {
   indexPlayers,
   logout,
   createPlayer,
-  savePlayerHelper
+  createPlayerHelper
 }

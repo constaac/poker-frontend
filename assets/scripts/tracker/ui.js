@@ -189,7 +189,10 @@ const onGetPlayersSuccess = function (response) {
   }
 }
 
-const onCreatePlayerSuccess = function () {
+const onCreatePlayerSuccess = function (response) {
+  console.log('Holy FUCK')
+  const index = $('#seat-selector').val()
+  $('#playername' + index).text(response.player.name)
   $('#save-load-status').text('Player saved!')
   $('#save-load-status').css('color', 'green')
   setTimeout(function () {
