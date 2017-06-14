@@ -170,7 +170,6 @@ const displayDealerMenu = function () {
         game.active = true
         toggleGameButtons()
         calcBlinds()
-        console.log(game.current_move.name)
         $('#status-indicator').text(game.current_move.name + "'s turn.")
         for (let t = 0; t < game.playing.length; t++) {
           game.playing[t].hand_count += 1
@@ -205,7 +204,6 @@ const onStartRound = function () {
 }
 
 const setCurrentMove = function (x) {
-  // PROBLEM MAY LIE HERE
   let currentMoveHolder = x + 1
   if (currentMoveHolder === game.playing.length) {
     currentMoveHolder = 0
@@ -293,7 +291,6 @@ const positionBehindBigBlind = function () {
 }
 
 const allCalled = function () {
-  // add function to check if phase 1 and allow big blind to check/bet
   if (game.phase_count === 0 && game.current_bet_count === 1 && positionBehindBigBlind()) {
     return false
   }
@@ -305,7 +302,6 @@ const allCalled = function () {
 }
 
 const allChecked = function () {
-  // add function to check if phase 1 and allow big blind to check/bet
   if (game.count_checked === game.playing.length) {
     return true
   } else {
@@ -384,7 +380,6 @@ const bet = function () {
     test3BetReRaise()
     game.count_matching_current_bet = 1
     game.current_bet_count += 1
-    // check reraise goes here
     game.current_move.personal_bet_count = game.current_bet_count
     game.count_checked = 0
     setCurrentMove(game.current_move_index)
@@ -428,7 +423,6 @@ const fold = function () {
   $('#status-indicator').html(game.current_move.name + "'s move.")
 }
 
-// RENAME this function
 const resetHasRaisedOrCalledPreflop = function () {
   for (let i = 0; i < players.length; i++) {
     players[i].has_raised_or_called_preflop = false
@@ -439,7 +433,6 @@ const resetHasRaisedOrCalledPreflop = function () {
   }
 }
 
-// Call to perform all actions when a round ends
 const triggerEndOfRound = function (condition) {
   $('#status-indicator').html('This round is over.')
   game = {
@@ -489,7 +482,6 @@ const triggerEndOfRound = function (condition) {
   }
 }
 
-// TEMPORARY FUNCTION
 const teststats = function () {
   console.log(game)
   $('#stats-table').empty()
@@ -517,13 +509,6 @@ const teststats = function () {
   $('#statisticsModal').modal('show')
 }
 
-// const createPlayerData = function () {
-//   const gameData = {}
-//   const seatSelection = $('#seat-selector').val()
-//   game['p' + seatSelection]
-//   gameData.name =
-// }
-
 module.exports = {
   onStartRound,
   game,
@@ -544,5 +529,4 @@ module.exports = {
   positionBehindBigBlind,
   countSitting,
   resetPlayer
-  // createPlayerData
 }
