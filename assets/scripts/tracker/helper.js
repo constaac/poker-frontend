@@ -26,6 +26,7 @@ const setLoadedPlayer = function (data, index, isUser) {
   $('#playername' + index).text(data.name)
   player.name = data.name
   player.id = data.id
+  store.userID = data.id
   player.hand_count = data.hand_count
   player.call_preflop_career = data.call_preflop
   player.raise_preflop_career = data.raise_preflop

@@ -57,6 +57,7 @@ const setOnCheckRadio = function (x) {
           .then(helper.onGetUserSuccess)
           .then(() => {
             logic.game['p' + i].is_user = true
+            logic.game['p' + i].id = store.userID
             logic.game['p' + i].name = store.userName
             $('#playername' + i).text(store.userName)
           })
@@ -161,7 +162,6 @@ const onSetSeat10 = () => {
 }
 
 const onGetPlayersSuccess = function (response) {
-  console.log('made it to on get players success function')
   let thisPlayer
   const thisName = $('#player-name-field').val()
   const thisIndex = $('#seat-selector').val()
@@ -186,11 +186,17 @@ const onGetPlayersSuccess = function (response) {
       $('#save-load-status').text('')
       $('#save-load-status').css('color', 'black')
     }, 2000)
+    return
   }
+  $('#save-load-status').text('Player successfully loaded!')
+  $('#save-load-status').css('color', 'black')
+  setTimeout(function () {
+    $('#save-load-status').text('')
+    $('#save-load-status').css('color', 'black')
+  }, 2000)
 }
 
 const onCreatePlayerSuccess = function (response) {
-  console.log('Holy FUCK')
   const index = $('#seat-selector').val()
   $('#playername' + index).text(response.player.name)
   $('#save-load-status').text('Player saved!')
@@ -211,11 +217,6 @@ const onCreatePlayerFailure = function (response) {
 }
 
 const setLoadedPlayer = function (data, index, isUser) {
-  const player = logic.game['p' + index]
-  console.log('this is player weeeee')
-  console.log(player)
-  console.log('this is data weeeee')
-  console.log(data)
   logic.resetPlayer(index)
   $('#playername' + index).text(data.name)
   logic.game['p' + index].name = data.name
@@ -247,7 +248,7 @@ const onGetPlayersFailure = function (response) {
 
 const onUpdatePlayerSuccess = function () {
   $('#save-load-status').text('Player information stored!')
-  $('#save-load-status').css('color', 'red')
+  $('#save-load-status').css('color', 'green')
   setTimeout(function () {
     $('#save-load-status').text('')
     $('#save-load-status').css('color', 'black')

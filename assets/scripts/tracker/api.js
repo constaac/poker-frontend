@@ -77,8 +77,8 @@ const onUpdatePlayer = function () {
   playerData.call_to_reraise_preflop = thisPlayer.call_to_raise_preflop_career
   playerData.fold_on_reraise_preflop = thisPlayer.fold_on_reraise_preflop_career
   savePlayer(playerData, thisPlayerID)
-    .then()
-    .catch()
+    .then(ui.onUpdatePlayerSuccess)
+    .catch(ui.onUpdatePlayerFailure)
 }
 
 const savePlayer = function (playerdata, id) {
