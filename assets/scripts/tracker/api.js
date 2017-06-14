@@ -6,11 +6,11 @@ const ui = require('./ui.js')
 const logic = require('./logic.js')
 
 const createPlayerHelper = function () {
+  console.log(logic.game)
   let data = {}
   const thisIndex = $('#seat-selector').val()
   // Hasn't been saved yet
   if (logic.game['p' + thisIndex].id === undefined) {
-    console.log('we got here')
     // Is user attempting to save
     if (logic.game['p' + thisIndex].is_user) {
       data = {
@@ -38,7 +38,7 @@ const createPlayerHelper = function () {
       .then(ui.onCreatePlayerSuccess)
       .catch(ui.onCreatePlayerFailure)
   } else {
-
+    console.log(logic.game)
   }
 }
 
