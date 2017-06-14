@@ -23,6 +23,7 @@ const signUpFailure = (response) => {
 const signInSuccess = (data) => {
   $('#loginModal').modal('toggle')
   $('.start-inline').fadeOut().css('display', 'none')
+  $('.start-block').fadeOut().css('display', 'none')
   $('.start-display-none').fadeIn().css('display', 'inline')
 }
 
@@ -37,6 +38,7 @@ const signInFailure = (error) => {
 
 const logoutSuccess = (data) => {
   $('.start-inline').fadeIn().css('display', 'inline')
+  $('.start-block').fadeIn().css('display', 'block')
   $('.start-display-none').fadeOut().css('display', 'none')
   $('#outcome-indicator').text('')
   $('#seats-table').empty()

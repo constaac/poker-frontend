@@ -126,10 +126,39 @@ const indexPlayers = function () {
     .catch(ui.onGetPlayersFailure)
 }
 
+const deletePlayer = function (data) {
+  const thisIndex = $('#seat-selector').val()
+  const thisPlayer = logic.game['p' + thisIndex]
+  // Hasn't been created yet
+  if (thisPlayer.id === undefined) {
+    $('#save-load-status').text('Player does not exist on the server')
+    $('#save-load-status').css('color', 'red')
+    setTimeout(function () {
+      $('#save-load-status').text('')
+      $('#save-load-status').css('color', 'black')
+    }, 2000)
+    return
+  }
+  const thisPlayerID = thisPlayer.id
+  return $.ajax({
+    headers: {
+      'Authorization': 'Token token=' + store.userToken
+    },
+    url: config.apiOrigins.development + '/players/' + thisPlayerID,
+    method: 'DELETE'
+  })
+    .then(ui.onDeletePlayerSuccess)
+    .then(() => {
+      thisPlayer.id = undefined
+    })
+    .catch(ui.onDeletePlayerFailure)
+}
+
 module.exports = {
   onUpdatePlayer,
   savePlayer,
   indexPlayers,
   createPlayer,
-  createPlayerHelper
+  createPlayerHelper,
+  deletePlayer
 }

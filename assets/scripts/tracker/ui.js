@@ -264,6 +264,24 @@ const onUpdatePlayerFailure = function () {
   }, 2000)
 }
 
+const onDeletePlayerSuccess = function () {
+  $('#save-load-status').text('Player deleted from the server!')
+  $('#save-load-status').css('color', 'green')
+  setTimeout(function () {
+    $('#save-load-status').text('')
+    $('#save-load-status').css('color', 'black')
+  }, 2000)
+}
+
+const onDeletePlayerFailure = function () {
+  $('#save-load-status').text('Error deleting player information!')
+  $('#save-load-status').css('color', 'red')
+  setTimeout(function () {
+    $('#save-load-status').text('')
+    $('#save-load-status').css('color', 'black')
+  }, 2000)
+}
+
 module.exports = {
   onSetSeat2,
   onSetSeat3,
@@ -281,5 +299,7 @@ module.exports = {
   onCreatePlayerFailure,
   onCreatePlayerSuccess,
   onUpdatePlayerFailure,
-  onUpdatePlayerSuccess
+  onUpdatePlayerSuccess,
+  onDeletePlayerFailure,
+  onDeletePlayerSuccess
 }

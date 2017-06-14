@@ -24,6 +24,7 @@ const addHandlers = () => {
   $('#player-create-btn').on('click', api.createPlayerHelper)
   $('#player-load-btn').on('click', api.indexPlayers)
   $('#player-save-btn').on('click', api.onUpdatePlayer)
+  $('#player-delete-btn').on('click', api.deletePlayer)
 }
 
 module.exports = {
