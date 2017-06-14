@@ -8,6 +8,8 @@ const helper = require('./helper.js')
 
 const resetSeats = function () {
   for (let i = 1; i <= 10; i++) {
+    logic.resetPlayer(i)
+    $('#playername ' + i).text('Player ' + 1)
     logic.game['p' + i].sitting = false
     logic.game['p' + i].playing = false
     logic.game['p' + i].is_user = false

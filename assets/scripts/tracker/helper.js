@@ -21,7 +21,6 @@ const onGetUserSuccess = function (response) {
 }
 
 const setLoadedPlayer = function (data, index, isUser) {
-  console.log(data)
   const player = logic.game['p' + index]
   logic.resetPlayer(index)
   $('#playername' + index).text(data.name)
