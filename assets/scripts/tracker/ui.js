@@ -33,7 +33,7 @@ const indexForUser = function () {
     headers: {
       'Authorization': 'Token token=' + store.userToken
     },
-    url: config.apiOrigins.development + '/players',
+    url: config.apiOrigins.production + '/players',
     method: 'GET'
   })
 }

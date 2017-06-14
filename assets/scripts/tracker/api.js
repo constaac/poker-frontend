@@ -46,7 +46,7 @@ const createPlayer = function (data) {
     headers: {
       'Authorization': 'Token token=' + store.userToken
     },
-    url: config.apiOrigins.development + '/players',
+    url: config.apiOrigins.production + '/players',
     method: 'POST',
     data: {
       'player': data
@@ -86,7 +86,7 @@ const savePlayer = function (playerdata, id) {
     headers: {
       'Authorization': 'Token token=' + store.userToken
     },
-    url: config.apiOrigins.development + '/players/' + id,
+    url: config.apiOrigins.production + '/players/' + id,
     method: 'PATCH',
     data: {
       'player': playerdata
@@ -119,7 +119,7 @@ const indexPlayers = function () {
     headers: {
       'Authorization': 'Token token=' + store.userToken
     },
-    url: config.apiOrigins.development + '/players',
+    url: config.apiOrigins.production + '/players',
     method: 'GET'
   })
     .then(ui.onGetPlayersSuccess)
@@ -144,7 +144,7 @@ const deletePlayer = function (data) {
     headers: {
       'Authorization': 'Token token=' + store.userToken
     },
-    url: config.apiOrigins.development + '/players/' + thisPlayerID,
+    url: config.apiOrigins.production + '/players/' + thisPlayerID,
     method: 'DELETE'
   })
     .then(ui.onDeletePlayerSuccess)

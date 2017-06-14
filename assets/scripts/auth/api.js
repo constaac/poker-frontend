@@ -5,7 +5,7 @@ const store = require('../store')
 
 const signUp = function (data) {
   return $.ajax({
-    url: config.apiOrigins.development + '/sign-up',
+    url: config.apiOrigins.production + '/sign-up',
     method: 'POST',
     data
   })
@@ -13,7 +13,7 @@ const signUp = function (data) {
 
 const signIn = function (data) {
   return $.ajax({
-    url: config.apiOrigins.development + '/sign-in',
+    url: config.apiOrigins.production + '/sign-in',
     method: 'POST',
     data
   })
@@ -30,7 +30,7 @@ const logout = function (data) {
     headers: {
       'Authorization': 'Token token=' + store.userToken
     },
-    url: config.apiOrigins.development + '/sign-out/' + store.userID,
+    url: config.apiOrigins.production + '/sign-out/' + store.userID,
     method: 'DELETE'
   })
     .then(function () {
@@ -44,7 +44,7 @@ const changePassword = function (data) {
     headers: {
       'Authorization': 'Token token=' + store.userToken
     },
-    url: config.apiOrigins.development + '/change-password/' + store.userID,
+    url: config.apiOrigins.production + '/change-password/' + store.userID,
     method: 'PATCH',
     data
   })
