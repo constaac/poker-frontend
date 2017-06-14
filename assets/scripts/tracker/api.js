@@ -54,7 +54,34 @@ const createPlayer = function (data) {
   })
 }
 
-const updatePlayer = function (playerdata, id) {
+const onUpdatePlayer = function () {
+  const thisIndex = $('#seat-selector').val()
+  const thisPlayer = logic.game['p' + thisIndex]
+  // Hasn't been created yet
+  if (thisPlayer.id === undefined) {
+    $('#save-load-status').text('Player needs to be created first')
+    $('#save-load-status').css('color', 'red')
+    setTimeout(function () {
+      $('#save-load-status').text('')
+      $('#save-load-status').css('color', 'black')
+    }, 2000)
+  }
+  const thisPlayerID = thisPlayer.id
+  const playerData = {}
+  playerData.id = thisPlayer.id
+  playerData.hand_count = thisPlayer.hand_count
+  playerData.call_preflop = thisPlayer.call_preflop_career
+  playerData.raise_preflop = thisPlayer.raise_preflop_career
+  playerData.call_or_raise_preflop = thisPlayer.call_or_raise_preflop_career
+  playerData.reraise_preflop = thisPlayer.reraise_preflop_career =
+  playerData.call_to_reraise_preflop = thisPlayer.call_to_raise_preflop_career
+  playerData.fold_on_reraise_preflop = thisPlayer.fold_on_reraise_preflop_career
+  savePlayer(playerData, thisPlayerID)
+    .then()
+    .catch()
+}
+
+const savePlayer = function (playerdata, id) {
   return $.ajax({
     headers: {
       'Authorization': 'Token token=' + store.userToken
@@ -99,24 +126,10 @@ const indexPlayers = function () {
     .catch(ui.onGetPlayersFailure)
 }
 
-const logout = function (data) {
-  return $.ajax({
-    headers: {
-      'Authorization': 'Token token=' + store.userToken
-    },
-    url: config.apiOrigins.development + '/sign-out/' + store.userID,
-    method: 'DELETE'
-  })
-    .then(function () {
-      store.userToken = undefined
-      store.userID = undefined
-    })
-}
-
 module.exports = {
-  updatePlayer,
+  onUpdatePlayer,
+  savePlayer,
   indexPlayers,
-  logout,
   createPlayer,
   createPlayerHelper
 }

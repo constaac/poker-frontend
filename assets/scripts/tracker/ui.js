@@ -245,6 +245,24 @@ const onGetPlayersFailure = function (response) {
   }, 2000)
 }
 
+const onUpdatePlayerSuccess = function () {
+  $('#save-load-status').text('Player information stored!')
+  $('#save-load-status').css('color', 'red')
+  setTimeout(function () {
+    $('#save-load-status').text('')
+    $('#save-load-status').css('color', 'black')
+  }, 2000)
+}
+
+const onUpdatePlayerFailure = function () {
+  $('#save-load-status').text('Error saving player information!')
+  $('#save-load-status').css('color', 'red')
+  setTimeout(function () {
+    $('#save-load-status').text('')
+    $('#save-load-status').css('color', 'black')
+  }, 2000)
+}
+
 module.exports = {
   onSetSeat2,
   onSetSeat3,
@@ -260,5 +278,7 @@ module.exports = {
   onGetPlayersFailure,
   onGetPlayersSuccess,
   onCreatePlayerFailure,
-  onCreatePlayerSuccess
+  onCreatePlayerSuccess,
+  onUpdatePlayerFailure,
+  onUpdatePlayerSuccess
 }
