@@ -43,7 +43,6 @@ const makePlayers = function () {
     players.push(newPlayer)
     store['p' + i + 'name'] = 'Player ' + i
   }
-  console.log(players)
 }
 makePlayers()
 
@@ -283,7 +282,6 @@ const callPossible = function () {
 const positionBehindBigBlind = function () {
   const bigBlindIndex = game.playing.findIndex((element) => { return element === game.big_blind })
   if (bigBlindIndex === (game.current_move_index + 1)) {
-    console.log('position behind big blind returns true')
     return true
   } else {
     return false
@@ -483,7 +481,6 @@ const triggerEndOfRound = function (condition) {
 }
 
 const teststats = function () {
-  console.log(game)
   $('#stats-table').empty()
   $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP</th><th>PFR</th><th>3Bet PreFlop</th></tr></thead>')
   for (let i = 0; i < players.length; i++) {

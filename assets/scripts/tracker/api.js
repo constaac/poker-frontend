@@ -73,6 +73,7 @@ const onUpdatePlayer = function () {
   }
   const thisPlayerID = thisPlayer.id
   const playerData = {}
+  // Needs player_id not user_id
   playerData.id = thisPlayer.id
   playerData.hand_count = thisPlayer.hand_count
   playerData.call_preflop = thisPlayer.call_preflop_career

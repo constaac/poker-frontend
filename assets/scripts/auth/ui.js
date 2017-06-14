@@ -27,8 +27,7 @@ const signInSuccess = (data) => {
   $('.start-display-none').fadeIn().css('display', 'inline')
 }
 
-const signInFailure = (error) => {
-  console.error(error)
+const signInFailure = () => {
   $('.signinstatus').html('Sign-in Unsuccessful... Check your password!')
   $('.signinstatus').css('color', 'red')
   setTimeout(function () {
