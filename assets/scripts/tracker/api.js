@@ -10,6 +10,7 @@ const createPlayerHelper = function () {
   const thisIndex = $('#seat-selector').val()
   // Hasn't been saved yet
   if (logic.game['p' + thisIndex].id === undefined) {
+    console.log('we got here')
     // Is user attempting to save
     if (logic.game['p' + thisIndex].is_user) {
       data = {
