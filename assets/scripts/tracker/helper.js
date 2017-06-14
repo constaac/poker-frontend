@@ -12,7 +12,7 @@ const onGetUserSuccess = function (response) {
       return
     }
   }
-  $('#save-load-status').text('First time loading your history: Please save.')
+  $('#save-load-status').text('First time loading your history: Please "create" a save for your user')
   $('#save-load-status').css('color', 'red')
   setTimeout(function () {
     $('#save-load-status').text('')
