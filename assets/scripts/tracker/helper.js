@@ -21,11 +21,13 @@ const onGetUserSuccess = function (response) {
 }
 
 const setLoadedPlayer = function (data, index, isUser) {
+  console.log(data)
   const player = logic.game['p' + index]
   logic.resetPlayer(index)
   $('#playername' + index).text(data.name)
   player.name = data.name
   player.id = data.id
+  // BELOW SHOULD BE userPLAYERID
   store.userID = data.id
   player.hand_count = data.hand_count
   player.call_preflop_career = data.call_preflop
