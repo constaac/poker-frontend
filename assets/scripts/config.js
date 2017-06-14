@@ -5,7 +5,7 @@
 const config = {
   apiOrigins: {
     development: 'http://127.0.0.1:4741/',
-    production: 'http://pokertracker.herokuapp.com/'
+    production: 'https://pokertracker.herokuapp.com'
   }
 }
 
