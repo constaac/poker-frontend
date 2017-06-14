@@ -5,6 +5,7 @@ const store = require('../store.js')
 const players = []
 
 const Player = function (x) {
+  this.id = undefined
   this.name = 'Player ' + x
   this.sitting = false
   this.playing = false
@@ -30,6 +31,10 @@ const Player = function (x) {
   this.fold_on_reraise_preflop = 0
   this.fold_on_reraise_preflop_career = 0
   this.personal_bet_count = 0
+}
+
+const resetPlayer = function (index) {
+  game['p' + index] = new Player(index)
 }
 
 const makePlayers = function () {
@@ -69,7 +74,16 @@ let game = {
   p9: players[8],
   p10: players[9]
 }
-console.log(game)
+
+const countSitting = function () {
+  let sittingCount = 0
+  for (let i = 0; i < players.length; i++) {
+    if (players[i].sitting) {
+      sittingCount += 1
+    }
+  }
+  return sittingCount
+}
 
 const checkSittingPlayers = function () {
   if (game.playing.length > 1) {
@@ -503,7 +517,12 @@ const teststats = function () {
   $('#statisticsModal').modal('show')
 }
 
-// <tr><td>some shit</td><td>4%</td><td>25%</td><td>30%</td></tr>
+// const createPlayerData = function () {
+//   const gameData = {}
+//   const seatSelection = $('#seat-selector').val()
+//   game['p' + seatSelection]
+//   gameData.name =
+// }
 
 module.exports = {
   onStartRound,
@@ -522,5 +541,8 @@ module.exports = {
   incrementPhase,
   triggerEndOfRound,
   allCalled,
-  positionBehindBigBlind
+  positionBehindBigBlind,
+  countSitting,
+  resetPlayer
+  // createPlayerData
 }

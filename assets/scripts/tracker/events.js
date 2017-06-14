@@ -21,8 +21,8 @@ const addHandlers = () => {
   $('#call-button').on('click', logic.call)
   $('#check-button').on('click', logic.check)
   $('#fold-button').on('click', logic.fold)
-  $('#player-save-btn').on('click', ui.)
-  $('#player-load-btn').on('click', api.)
+  $('#player-save-btn').on('click', api.savePlayerHelper)
+  $('#player-load-btn').on('click', api.indexPlayers)
 }
 
 module.exports = {

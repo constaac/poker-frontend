@@ -3,6 +3,8 @@
 const setSeatsNumber = require('../templates/table.handlebars')
 const logic = require('./logic.js')
 const store = require('../store.js')
+const config = require('../config.js')
+const helper = require('./helper.js')
 
 const resetSeats = function () {
   for (let i = 1; i <= 10; i++) {
@@ -26,19 +28,39 @@ const setOnCheckBox = function (x) {
   }
 }
 
+const indexForUser = function () {
+  return $.ajax({
+    headers: {
+      'Authorization': 'Token token=' + store.userToken
+    },
+    url: config.apiOrigins.development + '/players',
+    method: 'GET'
+  })
+}
+
 const setOnCheckRadio = function (x) {
   for (let i = 1; i <= x; i++) {
     $('#radio' + i).change(function () {
       const count = x
-      for (let k = 1; k <= count; k++) {
-        logic.game['p' + k].is_user = false
-        logic.game['p' + k].name = store['p' + k + 'name']
-        $('#playername' + k).text('Player ' + k)
-      }
       if (this.checked) {
-        logic.game['p' + i].is_user = true
-        logic.game['p' + i].name = store.userName
-        $('#playername' + i).text(store.userName)
+        // try to save player here (make api call in helper)
+        indexForUser()
+          .then((response) => {
+            for (let k = 1; k <= count; k++) {
+              if (logic.game['p' + k].is_user === true) {
+                logic.resetPlayer(k)
+                $('#playername' + k).text('Player ' + k)
+              }
+            }
+            return response
+          })
+          .then(helper.onGetUserSuccess)
+          .then(() => {
+            logic.game['p' + i].is_user = true
+            logic.game['p' + i].name = store.userName
+            $('#playername' + i).text(store.userName)
+          })
+          .catch(helper.onGetUserFailure)
       }
     })
   }
@@ -138,6 +160,88 @@ const onSetSeat10 = () => {
   setOnCheckRadio(10)
 }
 
+const onGetPlayersSuccess = function (response) {
+  console.log('made it to on get players success function')
+  let thisPlayer
+  const thisName = $('#player-name-field').val()
+  const thisIndex = $('#seat-selector').val()
+  for (let k = 1; k <= 10; k++) {
+    if ($('#playername' + k).text() === $('#player-name-field').val()) {
+      logic.resetPlayer(k)
+      $('#playername' + k).text('Player ' + k)
+      logic.game['p' + k].playing = $('#checkbox' + k).prop('checked')
+      logic.game['p' + k].sitting = true
+    }
+  }
+  for (let i = 0; i < response.players.length; i++) {
+    if (response.players[i].name === thisName) {
+      thisPlayer = response.players[i]
+      setLoadedPlayer(thisPlayer, thisIndex, false)
+    }
+  }
+  if (thisPlayer === undefined) {
+    $('#save-load-status').text('Player Not Found')
+    $('#save-load-status').css('color', 'red')
+    setTimeout(function () {
+      $('#save-load-status').text('')
+      $('#save-load-status').css('color', 'black')
+    }, 2000)
+  }
+}
+
+const onCreatePlayerSuccess = function () {
+  $('#save-load-status').text('Player saved!')
+  $('#save-load-status').css('color', 'green')
+  setTimeout(function () {
+    $('#save-load-status').text('')
+    $('#save-load-status').css('color', 'black')
+  }, 2000)
+}
+
+const onCreatePlayerFailure = function (response) {
+  $('#save-load-status').text("Couldn't save. Name may be taken.")
+  $('#save-load-status').css('color', 'red')
+  setTimeout(function () {
+    $('#save-load-status').text('')
+    $('#save-load-status').css('color', 'black')
+  }, 2000)
+}
+
+const setLoadedPlayer = function (data, index, isUser) {
+  const player = logic.game['p' + index]
+  console.log('this is player weeeee')
+  console.log(player)
+  console.log('this is data weeeee')
+  console.log(data)
+  logic.resetPlayer(index)
+  $('#playername' + index).text(data.name)
+  logic.game['p' + index].name = data.name
+  logic.game['p' + index].id = data.id
+  logic.game['p' + index].hand_count = data.hand_count
+  logic.game['p' + index].call_preflop_career = data.call_preflop
+  logic.game['p' + index].raise_preflop_career = data.raise_preflop
+  logic.game['p' + index].call_or_raise_preflop_career = data.call_or_raise_preflop
+  logic.game['p' + index].reraise_preflop_career = data.reraise_preflop
+  logic.game['p' + index].call_to_raise_preflop_career = data.call_to_reraise_preflop
+  logic.game['p' + index].fold_on_reraise_preflop_career = data.fold_on_reraise_preflop
+  if ($('#checkbox' + index).prop('checked')) {
+    logic.game['p' + index].playing = true
+  }
+  logic.game['p' + index].sitting = true
+  if (isUser) {
+    logic.game['p' + index].is_user = true
+  }
+}
+
+const onGetPlayersFailure = function (response) {
+  $('#save-load-status').text('Error Loading Players')
+  $('#save-load-status').css('color', 'red')
+  setTimeout(function () {
+    $('#save-load-status').text('')
+    $('#save-load-status').css('color', 'black')
+  }, 2000)
+}
+
 module.exports = {
   onSetSeat2,
   onSetSeat3,
@@ -149,5 +253,9 @@ module.exports = {
   onSetSeat9,
   onSetSeat10,
   openSetSeats,
-  resetSeats
+  resetSeats,
+  onGetPlayersFailure,
+  onGetPlayersSuccess,
+  onCreatePlayerFailure,
+  onCreatePlayerSuccess
 }
