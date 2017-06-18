@@ -146,6 +146,7 @@ const calcBlinds = function () {
 const displayDealerMenu = function () {
   $('.dealer-menu').empty()
   for (let i = 1; i <= 10; i++) {
+    game['p' + i].name = $('#playername' + i).val()
     if (game['p' + i].playing) {
       $('.dealer-menu').append('<li><a type="button" class="btn" id="set-dealer-' + i + '">' + game['p' + i].name + '</a></li>')
       $('#set-dealer-' + i).on('click', () => {
