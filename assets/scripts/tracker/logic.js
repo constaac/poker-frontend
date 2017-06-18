@@ -477,6 +477,7 @@ const triggerEndOfRound = function (condition) {
 // TEMPORARY FUNCTION
 const teststats = function () {
   console.log(game)
+  console.log(store.userName)
   $('#stats-table').empty()
   $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP</th><th>PFR</th><th>3Bet PreFlop</th></tr></thead>')
   for (let i = 0; i < players.length; i++) {

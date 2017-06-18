@@ -33,12 +33,14 @@ const setOnCheckRadio = function (x) {
       for (let k = 1; k <= count; k++) {
         logic.game['p' + k].is_user = false
         logic.game['p' + k].name = store['p' + k + 'name']
-        $('#playername' + k).text('Player ' + k)
+        $('#playername' + k).val('Player ' + k)
+        $('#playername' + k).removeAttr('disabled')
       }
       if (this.checked) {
         logic.game['p' + i].is_user = true
         logic.game['p' + i].name = store.userName
-        $('#playername' + i).text(store.userName)
+        $('#playername' + i).val(store.userName)
+        $('#playername' + i).attr('disabled', true)
       }
     })
   }
