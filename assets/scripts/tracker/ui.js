@@ -31,9 +31,11 @@ const setOnCheckRadio = function (x) {
     $('#radio' + i).change(function () {
       const count = x
       for (let k = 1; k <= count; k++) {
+        if (logic.game['p' + k].is_user) {
+          logic.resetPlayer(k)
+          $('#playername' + k).val('Player ' + k)
+        }
         logic.game['p' + k].is_user = false
-        logic.game['p' + k].name = store['p' + k + 'name']
-        $('#playername' + k).val('Player ' + k)
         $('#playername' + k).removeAttr('disabled')
       }
       if (this.checked) {
