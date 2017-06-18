@@ -3,7 +3,7 @@
     <th>Seat #</th>
     <th>Name</th>
     <th>Sitting</th>
-    <th>User's Seat</th>
+    <th>User</th>
   </tr>
   {{#each list as |element|}}
     <tr>
@@ -11,7 +11,7 @@
         {{element}}
       </td>
       <td>
-        <span id="playername{{element}}">Player {{element}}</span><br>
+        <input type="text" class="input-query" id="playername{{element}}" value="Player {{element}}"><br>
       </td>
       <td>
         <input type="checkbox" id="checkbox{{element}}" name="seats" value="{{element}}" checked><br>
