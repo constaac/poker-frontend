@@ -38,7 +38,6 @@ const makePlayers = function () {
     players.push(newPlayer)
     store['p' + i + 'name'] = 'Player ' + i
   }
-  console.log(players)
 }
 makePlayers()
 
@@ -69,7 +68,6 @@ let game = {
   p9: players[8],
   p10: players[9]
 }
-console.log(game)
 
 const checkSittingPlayers = function () {
   if (game.playing.length > 1) {

@@ -48,6 +48,14 @@ const openSetSeats = () => {
   $('#tableModal').modal('toggle')
 }
 
+const populateDropdown = function (count) {
+  $('#seat-selector').empty()
+  $('#seat-selector').append('<option value="1" selected>1</option>')
+  for (let y = 2; y <= count; y++) {
+    $('#seat-selector').append('<option value="' + y + '">' + y + '</option>')
+  }
+}
+
 const onSetSeatButton = (count) => {
   resetSeats()
   $('.load-save-menu').css('display', 'block')
@@ -60,6 +68,7 @@ const onSetSeatButton = (count) => {
   $('#seats-table').append(showSeatsHtml)
   setOnCheckBox(count)
   setOnCheckRadio(count)
+  populateDropdown(count)
 }
 
 module.exports = {
