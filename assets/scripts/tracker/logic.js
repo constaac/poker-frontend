@@ -63,6 +63,7 @@ let game = {
   current_bet_count: 0,
   count_matching_current_bet: 0,
   count_checked: 0,
+  preflop_bet_count: 0,
   playing: [],
   p1: players[0],
   p2: players[1],
@@ -324,6 +325,7 @@ const incrementPhase = function (condition) {
     setCurrentBet()
     return
   } else if (game.phase_count < 3) {
+    game.preflop_bet_count = 0
     game.phase_count += 1
     game.phase = phases[game.phase_count]
     setCurrentBet()
@@ -399,9 +401,20 @@ const testRaise = function () {
   }
 }
 
+// ISSUE WITH 3BET HERE - other conditions are okay (i think)
 const testReRaise = function () {
-  if ((game.current_bet_count - game.current_move.personal_bet_count) > 1) {
-    return true
+  if (game.phase_count === 0) {
+    if (game.preflop_bet_count > 0) {
+      return true
+    } else {
+      return false
+    }
+  } else {
+    if ((game.current_bet_count - game.current_move.personal_bet_count) > 1) {
+      return true
+    } else {
+      return false
+    }
   }
 }
 
@@ -444,6 +457,7 @@ const testVPIP = function () {
 
 const test3BetReRaise = function () {
   if (testReRaise() && game.phase_count === 0 && !(game.current_move.has_reraised_preflop)) {
+    console.log('reraise preflop detected')
     game.current_move.has_reraised_preflop = true
     game.current_move.has_called_or_reraised_to_raise_preflop = true
     game.current_move.reraise_preflop_temp += 1
@@ -462,6 +476,9 @@ const bet = function () {
   if (betPossible()) {
     testPFR()
     test3BetReRaise()
+    if (game.phase_count === 0) {
+      game.preflop_bet_count += 1
+    }
     game.count_matching_current_bet = 1
     game.current_bet_count += 1
     // check reraise goes here
@@ -529,6 +546,7 @@ const triggerEndOfRound = function (condition) {
   addTempToStat()
   resetTempStat()
   $('#status-indicator').html('This round is over.')
+  game.preflop_bet_count = 0
   game = {
     active: false,
     phase: phases[0],
@@ -594,7 +612,7 @@ const teststats = function () {
         const PFR = ((totalRaisesPF / totalHands) * 100).toFixed(1)
         let ThreeBetPF = ((totalReRaisePF / (totalReRaisePF + totalCallToRaisePF)) * 100).toFixed(1)
         if ((totalReRaisePF === 0) && (totalCallToRaisePF === 0)) {
-          ThreeBetPF = 0.0
+          ThreeBetPF = '0.0'
         }
         $('#stats-table').append('<tr><td>' + $('#playername' + (i + 1)).val() + '</td><td>' + totalHands + '</td><td>' + VPIP + '</td><td>' + PFR + '</td><td>' + ThreeBetPF + '</td></tr>')
       }
