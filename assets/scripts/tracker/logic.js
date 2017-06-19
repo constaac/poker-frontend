@@ -14,21 +14,27 @@ const Player = function (x) {
   this.hand_count = 0
   this.hand_count_career = 0
   this.call_preflop = 0
+  this.call_preflop_temp = 0
   this.call_preflop_career = 0
   this.raise_preflop = 0
+  this.raise_preflop_temp = 0
   this.raise_preflop_career = 0
   this.has_raised_preflop = false
   this.has_raised_or_called_preflop = false
   this.call_or_raise_preflop = 0
+  this.call_or_raise_preflop_temp = 0
   this.call_or_raise_preflop_career = 0
   this.reraise_preflop = 0
+  this.reraise_preflop_temp = 0
   this.reraise_preflop_career = 0
   this.has_reraised_preflop = false
   this.call_to_raise_preflop = 0
+  this.call_to_raise_preflop_temp = 0
   this.call_to_raise_preflop_career = 0
   this.has_called_to_raise_preflop = false
   this.has_called_or_reraised_to_raise_preflop = false
   this.fold_on_reraise_preflop = 0
+  this.fold_on_reraise_preflop_temp = 0
   this.fold_on_reraise_preflop_career = 0
   this.personal_bet_count = 0
 }
@@ -87,21 +93,27 @@ const resetPlayer = function (x) {
   seat.hand_count = 0
   seat.hand_count_career = 0
   seat.call_preflop = 0
+  seat.call_preflop_temp = 0
   seat.call_preflop_career = 0
   seat.raise_preflop = 0
+  seat.raise_preflop_temp = 0
   seat.raise_preflop_career = 0
   seat.has_raised_preflop = false
   seat.has_raised_or_called_preflop = false
   seat.call_or_raise_preflop = 0
+  seat.call_or_raise_preflop_temp = 0
   seat.call_or_raise_preflop_career = 0
   seat.reraise_preflop = 0
+  seat.reraise_preflop_temp = 0
   seat.reraise_preflop_career = 0
   seat.has_reraised_preflop = false
   seat.call_to_raise_preflop = 0
+  seat.call_to_raise_preflop_temp = 0
   seat.call_to_raise_preflop_career = 0
   seat.has_called_to_raise_preflop = false
   seat.has_called_or_reraised_to_raise_preflop = false
   seat.fold_on_reraise_preflop = 0
+  seat.fold_on_reraise_preflop_temp = 0
   seat.fold_on_reraise_preflop_career = 0
   seat.personal_bet_count = 0
 }
@@ -115,21 +127,27 @@ const resetAllPlayers = function () {
     seat.hand_count = 0
     seat.hand_count_career = 0
     seat.call_preflop = 0
+    seat.call_preflop_temp = 0
     seat.call_preflop_career = 0
     seat.raise_preflop = 0
+    seat.raise_preflop_temp = 0
     seat.raise_preflop_career = 0
     seat.has_raised_preflop = false
     seat.has_raised_or_called_preflop = false
     seat.call_or_raise_preflop = 0
+    seat.call_or_raise_preflop_temp = 0
     seat.call_or_raise_preflop_career = 0
     seat.reraise_preflop = 0
+    seat.reraise_preflop_temp = 0
     seat.reraise_preflop_career = 0
     seat.has_reraised_preflop = false
     seat.call_to_raise_preflop = 0
+    seat.call_to_raise_preflop_temp = 0
     seat.call_to_raise_preflop_career = 0
     seat.has_called_to_raise_preflop = false
     seat.has_called_or_reraised_to_raise_preflop = false
     seat.fold_on_reraise_preflop = 0
+    seat.fold_on_reraise_preflop_temp = 0
     seat.fold_on_reraise_preflop_career = 0
     seat.personal_bet_count = 0
   }
@@ -275,6 +293,30 @@ const setCurrentBet = function (condition) {
   }
 }
 
+const resetTempStat = function () {
+  for (let i = 1; i <= 10; i++) {
+    const player = game['p' + i]
+    player.call_preflop_temp = 0
+    player.raise_preflop_temp = 0
+    player.call_or_raise_preflop_temp = 0
+    player.reraise_preflop_temp = 0
+    player.call_to_raise_preflop_temp = 0
+    player.fold_on_reraise_preflop_temp = 0
+  }
+}
+
+const addTempToStat = function () {
+  for (let i = 1; i <= 10; i++) {
+    const player = game['p' + i]
+    player.call_preflop += player.call_preflop_temp
+    player.raise_preflop += player.raise_preflop_temp
+    player.call_or_raise_preflop += player.call_or_raise_preflop_temp
+    player.reraise_preflop += player.reraise_preflop_temp
+    player.call_to_raise_preflop += player.call_to_raise_preflop_temp
+    player.fold_on_reraise_preflop += player.fold_on_reraise_preflop_temp
+  }
+}
+
 const incrementPhase = function (condition) {
   if (condition) {
     game.phase_count = 0
@@ -384,9 +426,9 @@ const check = function () {
 const testPFR = function () {
   if (testRaise() && !(game.current_move.has_raised_preflop) && game.phase_count === 0) {
     game.current_move.has_raised_preflop = true
-    game.current_move.raise_preflop += 1
+    game.current_move.raise_preflop_temp += 1
     if (game.current_move.has_raised_or_called_preflop === false) {
-      game.current_move.call_or_raise_preflop += 1
+      game.current_move.call_or_raise_preflop_temp += 1
     }
     game.current_move.has_raised_or_called_preflop = true
   }
@@ -394,8 +436,8 @@ const testPFR = function () {
 
 const testVPIP = function () {
   if (!(game.current_move.has_raised_or_called_preflop) && game.phase_count === 0) {
-    game.current_move.call_preflop += 1
-    game.current_move.call_or_raise_preflop += 1
+    game.current_move.call_preflop_temp += 1
+    game.current_move.call_or_raise_preflop_temp += 1
     game.current_move.has_raised_or_called_preflop = true
   }
 }
@@ -404,7 +446,7 @@ const test3BetReRaise = function () {
   if (testReRaise() && game.phase_count === 0 && !(game.current_move.has_reraised_preflop)) {
     game.current_move.has_reraised_preflop = true
     game.current_move.has_called_or_reraised_to_raise_preflop = true
-    game.current_move.reraise_preflop += 1
+    game.current_move.reraise_preflop_temp += 1
   }
 }
 
@@ -412,7 +454,7 @@ const test3BetCallToRaise = function () {
   if ((game.current_bet_count > 1) && (game.phase_count === 0) && !(game.current_move.has_called_or_reraised_to_raise_preflop)) {
     game.current_move.has_called_to_raise_preflop = true
     game.current_move.has_called_or_reraised_to_raise_preflop = true
-    game.current_move.call_to_raise_preflop += 1
+    game.current_move.call_to_raise_preflop_temp += 1
   }
 }
 
@@ -484,6 +526,8 @@ const triggerEndOfRound = function (condition) {
       game['p' + t].hand_count += 1
     }
   }
+  addTempToStat()
+  resetTempStat()
   $('#status-indicator').html('This round is over.')
   game = {
     active: false,
