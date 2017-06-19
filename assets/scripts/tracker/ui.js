@@ -149,7 +149,6 @@ const onLoadSuccess = function (response) {
     $('#error-indicator').css('color', 'black')
     $('#error-indicator').css('display', 'none')
   }, 2000)
-  console.log(response)
 }
 
 const onLoadFailure = function () {
@@ -161,7 +160,6 @@ const onLoadFailure = function () {
     $('#error-indicator').css('color', 'black')
     $('#error-indicator').css('display', 'none')
   }, 2000)
-  console.log('save failed')
 }
 
 const onDeleteSuccess = function (response) {
@@ -176,7 +174,6 @@ const onDeleteSuccess = function (response) {
     $('#error-indicator').css('color', 'black')
     $('#error-indicator').css('display', 'none')
   }, 2000)
-  console.log(response)
 }
 
 const onDeleteFailure = function () {
@@ -220,7 +217,6 @@ const onIndexFailure = function () {
     $('#error-indicator').css('display', 'none')
   }, 2000)
   $('#player-index-container').css('display', 'none')
-  console.log('index failed')
 }
 
 module.exports = {

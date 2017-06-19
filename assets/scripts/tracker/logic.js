@@ -213,7 +213,6 @@ const displayDealerMenu = function () {
         game.active = true
         toggleGameButtons()
         calcBlinds()
-        console.log(game.current_move.name)
         $('#status-indicator').text(game.current_move.name + "'s turn.")
         for (let t = 0; t < game.playing.length; t++) {
           game.playing[t].hand_count += 1
@@ -328,7 +327,6 @@ const callPossible = function () {
 const positionBehindBigBlind = function () {
   const bigBlindIndex = game.playing.findIndex((element) => { return element === game.big_blind })
   if (bigBlindIndex === (game.current_move_index + 1)) {
-    console.log('position behind big blind returns true')
     return true
   } else {
     return false
@@ -534,7 +532,6 @@ const triggerEndOfRound = function (condition) {
 
 // TEMPORARY FUNCTION
 const teststats = function () {
-  console.log(game)
   $('#stats-table').empty()
   $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP %</th><th>PFR %</th><th>3Bet % PreFlop</th></tr></thead>')
   for (let i = 0; i < players.length; i++) {
