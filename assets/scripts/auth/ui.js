@@ -22,6 +22,7 @@ const signUpFailure = (response) => {
 const signInSuccess = (data) => {
   $('#loginModal').modal('toggle')
   $('.start-inline').fadeOut().css('display', 'none')
+  $('.start-block').fadeOut().css('display', 'none')
   $('.start-display-none').fadeIn().css('display', 'inline')
   trackerlogic.resetAllPlayers()
   trackerlogic.game.playing = []
@@ -50,6 +51,7 @@ const logoutSuccess = (data) => {
   $('.load-save-menu').css('display', 'none')
   $('#seat-selector').val('1')
   $('#player-name-field').val('')
+  $('.start-block').fadeOut().css('display', 'block')
 }
 
 const logoutFailure = () => {
