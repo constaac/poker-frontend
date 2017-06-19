@@ -54,9 +54,23 @@ const setOnCheckRadio = function (x) {
             return
           })
           .catch(() => {
-            api.save(data)
+            api.create(data)
+              .then((response) => {
+                logic.resetPlayer(i)
+                const person = logic.game['p' + i]
+                const holder = response.player
+                person.id = holder.id
+                person.call_or_raise_preflop_career = holder.call_or_raise_preflop
+                person.call_preflop_career = holder.call_preflop
+                person.call_to_raise_preflop_career = holder.call_to_reraise_preflop
+                person.fold_on_reraise_preflop_career = holder.fold_on_reraise_preflop
+                person.hand_count_career = holder.hand_count
+                person.raise_preflop_career = holder.raise_preflop
+                person.reraise_preflop_career = holder.reraise_preflop
+                person.name = store.userName
+              })
               .then(() => {
-                $('#error-indicator').html('User initialized!')
+                $('#error-indicator').html('' + store.userName + ' initialized!')
                 $('#error-indicator').css('color', 'green')
                 $('#error-indicator').css('display', 'inline')
                 setTimeout(function () {

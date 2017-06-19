@@ -14,6 +14,17 @@ const save = function (data) {
   })
 }
 
+const create = function (data) {
+  return $.ajax({
+    headers: {
+      'Authorization': 'Token token=' + store.userToken
+    },
+    url: config.apiOrigin + '/players/create',
+    method: 'POST',
+    data
+  })
+}
+
 const load = function (data) {
   return $.ajax({
     headers: {
@@ -49,5 +60,6 @@ module.exports = {
   save,
   load,
   destroy,
-  index
+  index,
+  create
 }
