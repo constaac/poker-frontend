@@ -14,18 +14,15 @@ const save = function (data) {
   })
 }
 
-const signIn = function (data) {
+const load = function (data) {
   return $.ajax({
-    url: config.apiOrigin + '/sign-in',
-    method: 'POST',
+    headers: {
+      'Authorization': 'Token token=' + store.userToken
+    },
+    url: config.apiOrigin + '/player',
+    method: 'PATCH',
     data
   })
-    .then((response) => {
-      store.userToken = response.user.token
-      store.userID = response.user.id
-      store.userEmail = response.user.email
-      store.userName = response.user.name
-    })
 }
 
 const logout = function (data) {
@@ -55,7 +52,7 @@ const changePassword = function (data) {
 
 module.exports = {
   save,
-  signIn,
+  load,
   logout,
   changePassword
 }

@@ -64,6 +64,20 @@ const onSaveButton = function () {
     .catch(ui.onSaveFailure)
 }
 
+const onLoadButton = function () {
+  const seatID = $('#seat-selector').val()
+  if (checkEmptyPlayerName(seatID)) {
+    return
+  }
+  const data = {player: {}}
+  const player = $('#playername' + seatID).val()
+  const temp = data.player
+  temp.name = player
+  api.load(data)
+    .then(ui.onLoadSuccess)
+    .catch(ui.onLoadFailure)
+}
+
 const addHandlers = () => {
   for (let j = 1; j <= 10; j++) {
     $('#seat-button-' + j).on('click', () => {
@@ -78,6 +92,7 @@ const addHandlers = () => {
   $('#check-button').on('click', logic.check)
   $('#fold-button').on('click', logic.fold)
   $('#save-button').on('click', onSaveButton)
+  $('#load-button').on('click', onLoadButton)
 }
 
 module.exports = {

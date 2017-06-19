@@ -5,14 +5,6 @@ const logic = require('./logic.js')
 const store = require('../store.js')
 const api = require('./api.js')
 
-const resetSeats = function () {
-  for (let i = 1; i <= 10; i++) {
-    logic.game['p' + i].sitting = false
-    logic.game['p' + i].playing = false
-    logic.game['p' + i].is_user = false
-  }
-}
-
 const setOnCheckBox = function (x) {
   for (let i = 1; i <= x; i++) {
     $('#checkbox' + i).change(function () {
@@ -40,6 +32,34 @@ const setOnCheckRadio = function (x) {
         $('#playername' + k).removeAttr('disabled')
       }
       if (this.checked) {
+        logic.resetPlayer(i)
+        const data = {player: {}}
+        data.player.name = store.userName
+        api.load(data)
+          .then((response) => {
+            logic.resetPlayer(i)
+            const person = logic.game['p' + i]
+            const holder = response.player
+            person.id = holder.id
+            person.call_or_raise_preflop_career = holder.call_or_raise_preflop
+            person.call_preflop_career = holder.call_preflop
+            person.call_to_raise_preflop_career = holder.call_to_reraise_preflop
+            person.fold_on_reraise_preflop_career = holder.fold_on_reraise_preflop
+            person.hand_count_career = holder.hand_count
+            person.raise_preflop_career = holder.raise_preflop
+            person.reraise_preflop_career = holder.reraise_preflop
+            person.name = store.userName
+          })
+          .catch(() => {
+            $('#error-indicator').html("Couldn't load your career data")
+            $('#error-indicator').css('color', 'red')
+            $('#error-indicator').css('display', 'inline')
+            setTimeout(function () {
+              $('#error-indicator').html('')
+              $('#error-indicator').css('color', 'black')
+              $('#error-indicator').css('display', 'none')
+            }, 2000)
+          })
         logic.game['p' + i].is_user = true
         logic.game['p' + i].name = store.userName
         $('#playername' + i).val(store.userName)
@@ -62,11 +82,17 @@ const populateDropdown = function (count) {
 }
 
 const onSetSeatButton = (count) => {
-  resetSeats()
+  logic.resetAllPlayers()
   $('.load-save-menu').css('display', 'block')
   const tempArray = []
+  for (let k = 1; k <= 10; k++) {
+    logic.game['p' + k].playing = false
+    logic.game['p' + k].sitting = false
+  }
   for (let i = 1; i <= count; i++) {
     tempArray.push(i)
+    logic.game['p' + i].playing = true
+    logic.game['p' + i].sitting = true
   }
   const showSeatsHtml = setSeatsNumber({ list: tempArray })
   $('#seats-table').empty()
@@ -88,11 +114,46 @@ const onSaveSuccess = function (response) {
     $('#error-indicator').css('color', 'black')
     $('#error-indicator').css('display', 'none')
   }, 2000)
-  console.log(response)
 }
 
 const onSaveFailure = function () {
   $('#error-indicator').html('Player save failed!')
+  $('#error-indicator').css('color', 'red')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+}
+
+const onLoadSuccess = function (response) {
+  const seatNumber = $('#seat-selector').val()
+  logic.resetPlayer(seatNumber)
+  const person = logic.game['p' + seatNumber]
+  const holder = response.player
+  person.id = holder.id
+  person.name = holder.name
+  person.call_or_raise_preflop_career = holder.call_or_raise_preflop
+  person.call_preflop_career = holder.call_preflop
+  person.call_to_raise_preflop_career = holder.call_to_reraise_preflop
+  person.fold_on_reraise_preflop_career = holder.fold_on_reraise_preflop
+  person.hand_count_career = holder.hand_count
+  person.raise_preflop_career = holder.raise_preflop
+  person.reraise_preflop_career = holder.reraise_preflop
+  $('#error-indicator').html('' + $('#playername' + seatNumber).val() + ' loaded!')
+  $('#error-indicator').css('color', 'green')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+  console.log(response)
+}
+
+const onLoadFailure = function () {
+  $('#error-indicator').html('Player not found!')
   $('#error-indicator').css('color', 'red')
   $('#error-indicator').css('display', 'inline')
   setTimeout(function () {
@@ -106,7 +167,8 @@ const onSaveFailure = function () {
 module.exports = {
   onSetSeatButton,
   openSetSeats,
-  resetSeats,
   onSaveSuccess,
-  onSaveFailure
+  onSaveFailure,
+  onLoadSuccess,
+  onLoadFailure
 }

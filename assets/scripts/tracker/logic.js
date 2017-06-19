@@ -106,6 +106,35 @@ const resetPlayer = function (x) {
   seat.personal_bet_count = 0
 }
 
+const resetAllPlayers = function () {
+  for (let i = 1; i <= 10; i++) {
+    const seat = game['p' + i]
+    seat.id = undefined
+    seat.name = 'Player ' + i
+    seat.is_dealer = false
+    seat.hand_count = 0
+    seat.hand_count_career = 0
+    seat.call_preflop = 0
+    seat.call_preflop_career = 0
+    seat.raise_preflop = 0
+    seat.raise_preflop_career = 0
+    seat.has_raised_preflop = false
+    seat.has_raised_or_called_preflop = false
+    seat.call_or_raise_preflop = 0
+    seat.call_or_raise_preflop_career = 0
+    seat.reraise_preflop = 0
+    seat.reraise_preflop_career = 0
+    seat.has_reraised_preflop = false
+    seat.call_to_raise_preflop = 0
+    seat.call_to_raise_preflop_career = 0
+    seat.has_called_to_raise_preflop = false
+    seat.has_called_or_reraised_to_raise_preflop = false
+    seat.fold_on_reraise_preflop = 0
+    seat.fold_on_reraise_preflop_career = 0
+    seat.personal_bet_count = 0
+  }
+}
+
 const toggleGameButtons = function () {
   if (game.active) {
     $('#bet-button').removeAttr('disabled')
@@ -506,7 +535,6 @@ const triggerEndOfRound = function (condition) {
 // TEMPORARY FUNCTION
 const teststats = function () {
   console.log(game)
-  console.log(store.userName)
   $('#stats-table').empty()
   $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP</th><th>PFR</th><th>3Bet PreFlop</th></tr></thead>')
   for (let i = 0; i < players.length; i++) {
@@ -552,5 +580,6 @@ module.exports = {
   triggerEndOfRound,
   allCalled,
   positionBehindBigBlind,
-  resetPlayer
+  resetPlayer,
+  resetAllPlayers
 }
