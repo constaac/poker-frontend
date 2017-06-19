@@ -549,7 +549,7 @@ const teststats = function () {
         if ((totalReRaisePF === 0) && (totalCallToRaisePF === 0)) {
           ThreeBetPF = 0
         }
-        $('#stats-table').append('<tr><td>' + players[i].name + '</td><td>' + totalHands + '</td><td>' + VPIP + '%</td><td>' + PFR + '%</td><td>' + ThreeBetPF + '%</td></tr>')
+        $('#stats-table').append('<tr><td>' + players[i].name + '</td><td>' + totalHands + '</td><td>' + VPIP + '</td><td>' + PFR + '</td><td>' + ThreeBetPF + '</td></tr>')
       }
     }
   }
