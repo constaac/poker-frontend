@@ -457,7 +457,6 @@ const testVPIP = function () {
 
 const test3BetReRaise = function () {
   if (testReRaise() && game.phase_count === 0 && !(game.current_move.has_reraised_preflop)) {
-    console.log('reraise preflop detected')
     game.current_move.has_reraised_preflop = true
     game.current_move.has_called_or_reraised_to_raise_preflop = true
     game.current_move.reraise_preflop_temp += 1
@@ -595,7 +594,6 @@ const triggerEndOfRound = function (condition) {
 }
 
 const teststats = function () {
-  console.log(game)
   $('#stats-table').empty()
   $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP %</th><th>PFR %</th><th>3Bet % PreFlop</th></tr></thead>')
   for (let i = 0; i < players.length; i++) {
