@@ -255,8 +255,8 @@ const setCurrentMove = function (x) {
 }
 
 const setPersonalBetCountsZero = function () {
-  for (let i = 0; i < game.playing.length; i++) {
-    game.playing[i].personal_bet_count = 0
+  for (let i = 1; i < 11; i++) {
+    game['p' + i].personal_bet_count = 0
   }
 }
 
@@ -293,9 +293,6 @@ const incrementPhase = function (condition) {
     $('#status-indicator').html('The ' + game.phase + " has begun. It's " + game.current_move.name + "'s move.")
   } else if (game.phase_count === 3) {
     triggerEndOfRound()
-    for (let t = 0; t < game.playing.length; t++) {
-      game.playing[t].hand_count += 1
-    }
     return
   }
 }
@@ -482,6 +479,11 @@ const resetHasRaisedOrCalledPreflop = function () {
 
 // Call to perform all actions when a round ends
 const triggerEndOfRound = function (condition) {
+  for (let t = 1; t < 11; t++) {
+    if (game['p' + t].playing) {
+      game['p' + t].hand_count += 1
+    }
+  }
   $('#status-indicator').html('This round is over.')
   game = {
     active: false,
@@ -531,6 +533,7 @@ const triggerEndOfRound = function (condition) {
 }
 
 const teststats = function () {
+  console.log(game)
   $('#stats-table').empty()
   $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP %</th><th>PFR %</th><th>3Bet % PreFlop</th></tr></thead>')
   for (let i = 0; i < players.length; i++) {
