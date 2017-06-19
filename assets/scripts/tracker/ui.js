@@ -50,15 +50,31 @@ const setOnCheckRadio = function (x) {
             person.reraise_preflop_career = holder.reraise_preflop
             person.name = store.userName
           })
+          .then(() => {
+            return
+          })
           .catch(() => {
-            $('#error-indicator').html("Couldn't load your career data")
-            $('#error-indicator').css('color', 'red')
-            $('#error-indicator').css('display', 'inline')
-            setTimeout(function () {
-              $('#error-indicator').html('')
-              $('#error-indicator').css('color', 'black')
-              $('#error-indicator').css('display', 'none')
-            }, 2000)
+            api.save(data)
+              .then(() => {
+                $('#error-indicator').html('User initialized!')
+                $('#error-indicator').css('color', 'green')
+                $('#error-indicator').css('display', 'inline')
+                setTimeout(function () {
+                  $('#error-indicator').html('')
+                  $('#error-indicator').css('color', 'black')
+                  $('#error-indicator').css('display', 'none')
+                }, 2000)
+              })
+              .catch(() => {
+                $('#error-indicator').html("Couldn't initialize User, please save")
+                $('#error-indicator').css('color', 'red')
+                $('#error-indicator').css('display', 'inline')
+                setTimeout(function () {
+                  $('#error-indicator').html('')
+                  $('#error-indicator').css('color', 'black')
+                  $('#error-indicator').css('display', 'none')
+                }, 2000)
+              })
           })
         logic.game['p' + i].is_user = true
         logic.game['p' + i].name = store.userName

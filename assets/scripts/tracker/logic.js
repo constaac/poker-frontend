@@ -530,7 +530,6 @@ const triggerEndOfRound = function (condition) {
   }
 }
 
-// TEMPORARY FUNCTION
 const teststats = function () {
   $('#stats-table').empty()
   $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP %</th><th>PFR %</th><th>3Bet % PreFlop</th></tr></thead>')
@@ -556,8 +555,6 @@ const teststats = function () {
   }
   $('#statisticsModal').modal('show')
 }
-
-// <tr><td>some shit</td><td>4%</td><td>25%</td><td>30%</td></tr>
 
 module.exports = {
   onStartRound,
