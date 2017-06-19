@@ -164,11 +164,40 @@ const onLoadFailure = function () {
   console.log('save failed')
 }
 
+const onDeleteSuccess = function (response) {
+  const seatNumber = $('#seat-selector').val()
+  logic.resetPlayer(seatNumber)
+  $('#playername' + seatNumber).val('Player ' + seatNumber)
+  $('#error-indicator').html('' + $('#playername' + seatNumber).val() + ' deleted')
+  $('#error-indicator').css('color', 'green')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+  console.log(response)
+}
+
+const onDeleteFailure = function () {
+  $('#error-indicator').html('Player not found!')
+  $('#error-indicator').css('color', 'red')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+  console.log('save failed')
+}
+
 module.exports = {
   onSetSeatButton,
   openSetSeats,
   onSaveSuccess,
   onSaveFailure,
   onLoadSuccess,
-  onLoadFailure
+  onLoadFailure,
+  onDeleteSuccess,
+  onDeleteFailure
 }

@@ -78,6 +78,25 @@ const onLoadButton = function () {
     .catch(ui.onLoadFailure)
 }
 
+const onDeleteButton = function () {
+  const seatID = $('#seat-selector').val()
+  const playerID = logic.game['p' + seatID].id
+  if (playerID === undefined) {
+    $('#error-indicator').html("Player doesn't exist on the server")
+    $('#error-indicator').css('color', 'red')
+    $('#error-indicator').css('display', 'inline')
+    setTimeout(function () {
+      $('#error-indicator').html('')
+      $('#error-indicator').css('color', 'black')
+      $('#error-indicator').css('display', 'none')
+    }, 2000)
+    return
+  }
+  api.destroy(playerID)
+    .then(ui.onDeleteSuccess)
+    .catch(ui.onDeleteFailure)
+}
+
 const addHandlers = () => {
   for (let j = 1; j <= 10; j++) {
     $('#seat-button-' + j).on('click', () => {
@@ -93,6 +112,7 @@ const addHandlers = () => {
   $('#fold-button').on('click', logic.fold)
   $('#save-button').on('click', onSaveButton)
   $('#load-button').on('click', onLoadButton)
+  $('#delete-button').on('click', onDeleteButton)
 }
 
 module.exports = {

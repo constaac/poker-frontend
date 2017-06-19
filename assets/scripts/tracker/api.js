@@ -25,34 +25,18 @@ const load = function (data) {
   })
 }
 
-const logout = function (data) {
+const destroy = function (data) {
   return $.ajax({
     headers: {
       'Authorization': 'Token token=' + store.userToken
     },
-    url: config.apiOrigin + '/sign-out/' + store.userID,
+    url: config.apiOrigin + '/players/' + data,
     method: 'DELETE'
-  })
-    .then(function () {
-      store.userToken = undefined
-      store.userID = undefined
-    })
-}
-
-const changePassword = function (data) {
-  return $.ajax({
-    headers: {
-      'Authorization': 'Token token=' + store.userToken
-    },
-    url: config.apiOrigin + '/change-password/' + store.userID,
-    method: 'PATCH',
-    data
   })
 }
 
 module.exports = {
   save,
   load,
-  logout,
-  changePassword
+  destroy
 }
