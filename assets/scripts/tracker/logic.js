@@ -536,20 +536,20 @@ const triggerEndOfRound = function (condition) {
 const teststats = function () {
   console.log(game)
   $('#stats-table').empty()
-  $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP</th><th>PFR</th><th>3Bet PreFlop</th></tr></thead>')
+  $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP %</th><th>PFR %</th><th>3Bet % PreFlop</th></tr></thead>')
   for (let i = 0; i < players.length; i++) {
     if (players[i].sitting) {
       const totalHands = players[i].hand_count + players[i].hand_count_career
       if (totalHands === 0) {
-        $('#stats-table').append('<tr><td>' + players[i].name + '</td><td>' + totalHands + '</td><td>' + 0 + '%</td><td>' + 0 + '%</td><td>' + 0 + '%</td></tr>')
+        $('#stats-table').append('<tr><td>' + players[i].name + '</td><td>' + totalHands + '</td><td>' + 0 + '</td><td>' + 0 + '</td><td>' + 0 + '</td></tr>')
       } else {
         const totalRaisesOrCallsPF = players[i].call_or_raise_preflop + players[i].call_or_raise_preflop_career
         const totalRaisesPF = players[i].raise_preflop + players[i].raise_preflop_career
         const totalReRaisePF = players[i].reraise_preflop + players[i].reraise_preflop_career
         const totalCallToRaisePF = players[i].call_to_raise_preflop + players[i].call_to_raise_preflop_career
-        const VPIP = ((totalRaisesOrCallsPF / totalHands) * 100).toFixed(2)
-        const PFR = ((totalRaisesPF / totalHands) * 100).toFixed(2)
-        let ThreeBetPF = ((totalReRaisePF / (totalReRaisePF + totalCallToRaisePF)) * 100).toFixed(2)
+        const VPIP = ((totalRaisesOrCallsPF / totalHands) * 100).toFixed(1)
+        const PFR = ((totalRaisesPF / totalHands) * 100).toFixed(1)
+        let ThreeBetPF = ((totalReRaisePF / (totalReRaisePF + totalCallToRaisePF)) * 100).toFixed(1)
         if ((totalReRaisePF === 0) && (totalCallToRaisePF === 0)) {
           ThreeBetPF = 0
         }
