@@ -214,9 +214,6 @@ const displayDealerMenu = function () {
         toggleGameButtons()
         calcBlinds()
         $('#status-indicator').text(game.current_move.name + "'s turn.")
-        for (let t = 0; t < game.playing.length; t++) {
-          game.playing[t].hand_count += 1
-        }
       })
     }
   }
@@ -296,6 +293,9 @@ const incrementPhase = function (condition) {
     $('#status-indicator').html('The ' + game.phase + " has begun. It's " + game.current_move.name + "'s move.")
   } else if (game.phase_count === 3) {
     triggerEndOfRound()
+    for (let t = 0; t < game.playing.length; t++) {
+      game.playing[t].hand_count += 1
+    }
     return
   }
 }
