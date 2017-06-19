@@ -16,6 +16,11 @@ td {
     padding-bottom: .5em;
 }
 
+.player-index-container {
+  height: 150px;
+  overflow: scroll;
+}
+
 // select option {
 //     background: rgba(0, 0, 0, 0.3);
 //     color: #fff;

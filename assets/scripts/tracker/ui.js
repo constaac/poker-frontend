@@ -188,7 +188,39 @@ const onDeleteFailure = function () {
     $('#error-indicator').css('color', 'black')
     $('#error-indicator').css('display', 'none')
   }, 2000)
-  console.log('save failed')
+}
+
+const onIndexSuccess = function (response) {
+  $('.player-index-container').css('display', 'block')
+  $('#list-button').css('display', 'none')
+  $('#list-button-hide').css('display', 'inline')
+  const sortedArray = response.players
+  sortedArray.sort(function (a, b) {
+    return a.name.localeCompare(b.name)
+  })
+  for (let i = 0; i < sortedArray.length; i++) {
+    $('#player-index').append('<li>' + sortedArray[i].name + '</li>')
+  }
+}
+
+const onListHide = function () {
+  $('.player-index-container').css('display', 'none')
+  $('#player-index').empty()
+  $('#list-button').css('display', 'inline')
+  $('#list-button-hide').css('display', 'none')
+}
+
+const onIndexFailure = function () {
+  $('#error-indicator').html('Error Loading List')
+  $('#error-indicator').css('color', 'red')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+  $('#player-index-container').css('display', 'none')
+  console.log('index failed')
 }
 
 module.exports = {
@@ -199,5 +231,8 @@ module.exports = {
   onLoadSuccess,
   onLoadFailure,
   onDeleteSuccess,
-  onDeleteFailure
+  onDeleteFailure,
+  onIndexFailure,
+  onIndexSuccess,
+  onListHide
 }

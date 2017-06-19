@@ -97,6 +97,12 @@ const onDeleteButton = function () {
     .catch(ui.onDeleteFailure)
 }
 
+const onIndexButton = function () {
+  api.index()
+    .then(ui.onIndexSuccess)
+    .catch(ui.onIndexFailure)
+}
+
 const addHandlers = () => {
   for (let j = 1; j <= 10; j++) {
     $('#seat-button-' + j).on('click', () => {
@@ -113,6 +119,8 @@ const addHandlers = () => {
   $('#save-button').on('click', onSaveButton)
   $('#load-button').on('click', onLoadButton)
   $('#delete-button').on('click', onDeleteButton)
+  $('#list-button').on('click', onIndexButton)
+  $('#list-button-hide').on('click', ui.onListHide)
 }
 
 module.exports = {

@@ -35,8 +35,19 @@ const destroy = function (data) {
   })
 }
 
+const index = function () {
+  return $.ajax({
+    headers: {
+      'Authorization': 'Token token=' + store.userToken
+    },
+    url: config.apiOrigin + '/players',
+    method: 'GET'
+  })
+}
+
 module.exports = {
   save,
   load,
-  destroy
+  destroy,
+  index
 }

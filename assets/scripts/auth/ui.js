@@ -1,6 +1,5 @@
 'use strict'
-const store = require('../store')
-const trackerui = require('../tracker/ui.js')
+
 const trackerlogic = require('../tracker/logic.js')
 
 const signUpSuccess = () => {
@@ -24,6 +23,8 @@ const signInSuccess = (data) => {
   $('#loginModal').modal('toggle')
   $('.start-inline').fadeOut().css('display', 'none')
   $('.start-display-none').fadeIn().css('display', 'inline')
+  trackerlogic.resetAllPlayers()
+  trackerlogic.game.playing = []
 }
 
 const signInFailure = (error) => {
@@ -40,8 +41,11 @@ const logoutSuccess = (data) => {
   $('.start-display-none').fadeOut().css('display', 'none')
   $('#outcome-indicator').text('')
   $('#seats-table').empty()
-  trackerui.resetSeats()
+  trackerlogic.resetAllPlayers()
   trackerlogic.triggerEndOfRound(true)
+  for (let i = 1; i <= 10; i++) {
+    trackerlogic.game['p' + i].sitting = false
+  }
   $('#status-indicator').text('Welcome! Set the Table and then Begin a Round')
   $('.load-save-menu').css('display', 'none')
   $('#seat-selector').val('1')
