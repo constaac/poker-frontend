@@ -5,6 +5,7 @@ const store = require('../store.js')
 const players = []
 
 const Player = function (x) {
+  this.id = undefined
   this.name = 'Player ' + x
   this.sitting = false
   this.playing = false
@@ -79,6 +80,7 @@ const checkSittingPlayers = function () {
 
 const resetPlayer = function (x) {
   const seat = game['p' + x]
+  seat.id = undefined
   seat.name = 'Player ' + x
   seat.playing = $('#checkbox' + x).is(':checked')
   seat.is_dealer = false

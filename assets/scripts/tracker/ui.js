@@ -3,6 +3,7 @@
 const setSeatsNumber = require('../templates/table.handlebars')
 const logic = require('./logic.js')
 const store = require('../store.js')
+const api = require('./api.js')
 
 const resetSeats = function () {
   for (let i = 1; i <= 10; i++) {
@@ -75,8 +76,37 @@ const onSetSeatButton = (count) => {
   populateDropdown(count)
 }
 
+const onSaveSuccess = function (response) {
+  logic.game['p' + $('#seat-selector').val()].id = response.player.id
+  logic.game['p' + $('#seat-selector').val()].name = response.player.name
+  const seatNumber = $('#seat-selector').val()
+  $('#error-indicator').html('' + $('#playername' + seatNumber).val() + ' saved!')
+  $('#error-indicator').css('color', 'green')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+  console.log(response)
+}
+
+const onSaveFailure = function () {
+  $('#error-indicator').html('Player save failed!')
+  $('#error-indicator').css('color', 'red')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+  console.log('save failed')
+}
+
 module.exports = {
   onSetSeatButton,
   openSetSeats,
-  resetSeats
+  resetSeats,
+  onSaveSuccess,
+  onSaveFailure
 }
