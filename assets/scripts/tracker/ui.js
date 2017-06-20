@@ -219,10 +219,30 @@ const onDeleteFailure = function () {
 }
 
 const onIndexSuccess = function (response) {
+  const sortedArray = response.players
+  let userNameIndex = NaN
+  for (let k = 0; k < sortedArray.length; k++) {
+    if (sortedArray[k].name === store.userName) {
+      userNameIndex = k
+    }
+  }
+  if (!isNaN(userNameIndex)) {
+    sortedArray.splice(userNameIndex, 1)
+  }
+  if (sortedArray.length === 0) {
+    $('#error-indicator').html("You don't have any players saved")
+    $('#error-indicator').css('color', 'red')
+    $('#error-indicator').css('display', 'inline')
+    setTimeout(function () {
+      $('#error-indicator').html('')
+      $('#error-indicator').css('color', 'black')
+      $('#error-indicator').css('display', 'none')
+    }, 2000)
+    return
+  }
   $('.player-index-container').css('display', 'block')
   $('#list-button').css('display', 'none')
   $('#list-button-hide').css('display', 'inline')
-  const sortedArray = response.players
   sortedArray.sort(function (a, b) {
     return a.name.localeCompare(b.name)
   })
