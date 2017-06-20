@@ -263,7 +263,6 @@ const onStartRound = function () {
 }
 
 const setCurrentMove = function (x) {
-  // PROBLEM MAY LIE HERE
   let currentMoveHolder = x + 1
   if (currentMoveHolder === game.playing.length) {
     currentMoveHolder = 0
