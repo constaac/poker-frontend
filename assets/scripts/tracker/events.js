@@ -80,6 +80,17 @@ const onLoadButton = function () {
 
 const onDeleteButton = function () {
   const seatID = $('#seat-selector').val()
+  if (logic.game['p' + seatID].is_user) {
+    $('#error-indicator').html("You can't delete your own statistics")
+    $('#error-indicator').css('color', 'red')
+    $('#error-indicator').css('display', 'inline')
+    setTimeout(function () {
+      $('#error-indicator').html('')
+      $('#error-indicator').css('color', 'black')
+      $('#error-indicator').css('display', 'none')
+    }, 2000)
+    return
+  }
   const playerID = logic.game['p' + seatID].id
   if (playerID === undefined) {
     $('#error-indicator').html("Player doesn't exist on the server")
