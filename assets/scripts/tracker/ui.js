@@ -5,6 +5,28 @@ const logic = require('./logic.js')
 const store = require('../store.js')
 const api = require('./api.js')
 
+const success = function (string) {
+  $('#error-indicator').html(string)
+  $('#error-indicator').css('color', 'green')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+}
+
+const failure = function (string) {
+  $('#error-indicator').html(string)
+  $('#error-indicator').css('color', 'red')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+}
+
 const setOnCheckBox = function (x) {
   for (let i = 1; i <= x; i++) {
     $('#checkbox' + i).change(function () {
@@ -70,24 +92,10 @@ const setOnCheckRadio = function (x) {
                 person.name = store.userName
               })
               .then(() => {
-                $('#error-indicator').html('' + store.userName + ' initialized!')
-                $('#error-indicator').css('color', 'green')
-                $('#error-indicator').css('display', 'inline')
-                setTimeout(function () {
-                  $('#error-indicator').html('')
-                  $('#error-indicator').css('color', 'black')
-                  $('#error-indicator').css('display', 'none')
-                }, 2000)
+                success('' + store.userName + ' initialized!')
               })
               .catch(() => {
-                $('#error-indicator').html("Couldn't initialize User, please save")
-                $('#error-indicator').css('color', 'red')
-                $('#error-indicator').css('display', 'inline')
-                setTimeout(function () {
-                  $('#error-indicator').html('')
-                  $('#error-indicator').css('color', 'black')
-                  $('#error-indicator').css('display', 'none')
-                }, 2000)
+                failure("Couldn't initialize User, please save")
               })
           })
         logic.game['p' + i].is_user = true
@@ -137,25 +145,11 @@ const onSaveSuccess = function (response) {
   logic.game['p' + $('#seat-selector').val()].id = response.player.id
   logic.game['p' + $('#seat-selector').val()].name = response.player.name
   const seatNumber = $('#seat-selector').val()
-  $('#error-indicator').html('' + $('#playername' + seatNumber).val() + ' saved!')
-  $('#error-indicator').css('color', 'green')
-  $('#error-indicator').css('display', 'inline')
-  setTimeout(function () {
-    $('#error-indicator').html('')
-    $('#error-indicator').css('color', 'black')
-    $('#error-indicator').css('display', 'none')
-  }, 2000)
+  success('' + $('#playername' + seatNumber).val() + ' saved!')
 }
 
 const onSaveFailure = function () {
-  $('#error-indicator').html('Player save failed!')
-  $('#error-indicator').css('color', 'red')
-  $('#error-indicator').css('display', 'inline')
-  setTimeout(function () {
-    $('#error-indicator').html('')
-    $('#error-indicator').css('color', 'black')
-    $('#error-indicator').css('display', 'none')
-  }, 2000)
+  failure('Player save failed!')
 }
 
 const onLoadSuccess = function (response) {
@@ -172,50 +166,22 @@ const onLoadSuccess = function (response) {
   person.hand_count_career = holder.hand_count
   person.raise_preflop_career = holder.raise_preflop
   person.reraise_preflop_career = holder.reraise_preflop
-  $('#error-indicator').html('' + $('#playername' + seatNumber).val() + ' loaded!')
-  $('#error-indicator').css('color', 'green')
-  $('#error-indicator').css('display', 'inline')
-  setTimeout(function () {
-    $('#error-indicator').html('')
-    $('#error-indicator').css('color', 'black')
-    $('#error-indicator').css('display', 'none')
-  }, 2000)
+  success('' + $('#playername' + seatNumber).val() + ' loaded!')
 }
 
 const onLoadFailure = function () {
-  $('#error-indicator').html('Player not found!')
-  $('#error-indicator').css('color', 'red')
-  $('#error-indicator').css('display', 'inline')
-  setTimeout(function () {
-    $('#error-indicator').html('')
-    $('#error-indicator').css('color', 'black')
-    $('#error-indicator').css('display', 'none')
-  }, 2000)
+  failure('Player not found!')
 }
 
 const onDeleteSuccess = function (response) {
   const seatNumber = $('#seat-selector').val()
   logic.resetPlayer(seatNumber)
   $('#playername' + seatNumber).val('Player ' + seatNumber)
-  $('#error-indicator').html('' + $('#playername' + seatNumber).val() + ' deleted')
-  $('#error-indicator').css('color', 'green')
-  $('#error-indicator').css('display', 'inline')
-  setTimeout(function () {
-    $('#error-indicator').html('')
-    $('#error-indicator').css('color', 'black')
-    $('#error-indicator').css('display', 'none')
-  }, 2000)
+  success('' + $('#playername' + seatNumber).val() + ' deleted')
 }
 
 const onDeleteFailure = function () {
-  $('#error-indicator').html('Player not found!')
-  $('#error-indicator').css('color', 'red')
-  $('#error-indicator').css('display', 'inline')
-  setTimeout(function () {
-    $('#error-indicator').html('')
-    $('#error-indicator').css('color', 'black')
-    $('#error-indicator').css('display', 'none')
-  }, 2000)
+  failure('Player not found!')
 }
 
 const onIndexSuccess = function (response) {
@@ -230,14 +196,7 @@ const onIndexSuccess = function (response) {
     sortedArray.splice(userNameIndex, 1)
   }
   if (sortedArray.length === 0) {
-    $('#error-indicator').html("You don't have any players saved")
-    $('#error-indicator').css('color', 'red')
-    $('#error-indicator').css('display', 'inline')
-    setTimeout(function () {
-      $('#error-indicator').html('')
-      $('#error-indicator').css('color', 'black')
-      $('#error-indicator').css('display', 'none')
-    }, 2000)
+    failure("You don't have any players saved")
     return
   }
   $('.player-index-container').css('display', 'block')
@@ -259,14 +218,7 @@ const onListHide = function () {
 }
 
 const onIndexFailure = function () {
-  $('#error-indicator').html('Error Loading List')
-  $('#error-indicator').css('color', 'red')
-  $('#error-indicator').css('display', 'inline')
-  setTimeout(function () {
-    $('#error-indicator').html('')
-    $('#error-indicator').css('color', 'black')
-    $('#error-indicator').css('display', 'none')
-  }, 2000)
+  failure('Error Loading List')
   $('#player-index-container').css('display', 'none')
 }
 

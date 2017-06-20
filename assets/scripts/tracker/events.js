@@ -10,26 +10,23 @@ const checkPlayerNameChanged = function (seatID) {
   }
 }
 
+const failure = function (string) {
+  $('#error-indicator').html(string)
+  $('#error-indicator').css('color', 'red')
+  $('#error-indicator').css('display', 'inline')
+  setTimeout(function () {
+    $('#error-indicator').html('')
+    $('#error-indicator').css('color', 'black')
+    $('#error-indicator').css('display', 'none')
+  }, 2000)
+}
+
 const checkEmptyPlayerName = function (seatID) {
   if (($('#playername' + seatID).val() === '')) {
-    $('#error-indicator').html("Player Name can't be empty")
-    $('#error-indicator').css('color', 'red')
-    $('#error-indicator').css('display', 'inline')
-    setTimeout(function () {
-      $('#error-indicator').html('')
-      $('#error-indicator').css('color', 'black')
-      $('#error-indicator').css('display', 'none')
-    }, 2000)
+    failure("Player Name can't be empty")
     return true
   } else if (checkPlayerNameChanged(seatID)) {
-    $('#error-indicator').html("Player Name can't be 'Player " + seatID + "'")
-    $('#error-indicator').css('color', 'red')
-    $('#error-indicator').css('display', 'inline')
-    setTimeout(function () {
-      $('#error-indicator').html('')
-      $('#error-indicator').css('color', 'black')
-      $('#error-indicator').css('display', 'none')
-    }, 2000)
+    failure("Player Name can't be 'Player " + seatID + "'")
     return true
   } else {
     return false
@@ -81,26 +78,12 @@ const onLoadButton = function () {
 const onDeleteButton = function () {
   const seatID = $('#seat-selector').val()
   if (logic.game['p' + seatID].is_user) {
-    $('#error-indicator').html("You can't delete your own statistics")
-    $('#error-indicator').css('color', 'red')
-    $('#error-indicator').css('display', 'inline')
-    setTimeout(function () {
-      $('#error-indicator').html('')
-      $('#error-indicator').css('color', 'black')
-      $('#error-indicator').css('display', 'none')
-    }, 2000)
+    failure("You can't delete your own statistics")
     return
   }
   const playerID = logic.game['p' + seatID].id
   if (playerID === undefined) {
-    $('#error-indicator').html("Player doesn't exist on the server")
-    $('#error-indicator').css('color', 'red')
-    $('#error-indicator').css('display', 'inline')
-    setTimeout(function () {
-      $('#error-indicator').html('')
-      $('#error-indicator').css('color', 'black')
-      $('#error-indicator').css('display', 'none')
-    }, 2000)
+    failure("Player doesn't exist on the server")
     return
   }
   api.destroy(playerID)
