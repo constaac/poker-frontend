@@ -112,7 +112,6 @@ const populateDropdown = function (count) {
 }
 
 // TODO Modify to retain currently sitting players
-// TODO Mail Email input for signin / signup case insensitive
 const onSetSeatButton = (count) => {
   logic.resetAllPlayers()
   $('.load-save-menu').css('display', 'block')

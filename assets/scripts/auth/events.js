@@ -7,6 +7,7 @@ const ui = require('./ui')
 const onSignUp = function (event) {
   event.preventDefault()
   const data = getFormFields(event.target)
+  data.credentials.email = data.credentials.email.toLowerCase()
   api.signUp(data)
   .then(ui.signUpSuccess)
   .catch(ui.signUpFailure)
@@ -15,6 +16,7 @@ const onSignUp = function (event) {
 const onLogin = function (event) {
   event.preventDefault()
   const data = getFormFields(event.target)
+  data.credentials.email = data.credentials.email.toLowerCase()
   api.signIn(data)
     .then(ui.signInSuccess)
     .catch(ui.signInFailure)
