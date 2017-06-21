@@ -142,9 +142,9 @@ const onSetSeatButton = (count) => {
 }
 
 const onSaveSuccess = function (response) {
-  logic.game['p' + $('#seat-selector').val()].id = response.player.id
-  logic.game['p' + $('#seat-selector').val()].name = response.player.name
   const seatNumber = $('#seat-selector').val()
+  logic.game['p' + seatNumber].id = response.player.id
+  logic.game['p' + seatNumber].name = response.player.name
   success('' + $('#playername' + seatNumber).val() + ' saved!')
 }
 
