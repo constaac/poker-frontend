@@ -446,7 +446,6 @@ const bet = function () {
     }
     game.count_matching_current_bet = 1
     game.current_bet_count += 1
-    // check reraise goes here
     game.current_move.personal_bet_count = game.current_bet_count
     game.count_checked = 0
     setCurrentMove(game.current_move_index)
@@ -561,12 +560,12 @@ const triggerEndOfRound = function (condition) {
 
 const teststats = function () {
   $('#stats-table').empty()
-  $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP %</th><th>PFR %</th><th>3Bet % PreFlop</th></tr></thead>')
+  $('#stats-table').append('<thead><tr><th>Name</th><th>Hands Seen</th><th>VPIP %</th><th>PFR %</th></tr></thead>')
   for (let i = 0; i < players.length; i++) {
     if (players[i].sitting) {
       const totalHands = players[i].hand_count + players[i].hand_count_career
       if (totalHands === 0) {
-        $('#stats-table').append('<tr><td>' + $('#playername' + (i + 1)).val() + '</td><td>' + totalHands + '</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>')
+        $('#stats-table').append('<tr><td>' + $('#playername' + (i + 1)).val() + '</td><td>' + totalHands + '</td><td>0.0</td><td>0.0</td></tr>')
       } else {
         const totalRaisesOrCallsPF = players[i].call_or_raise_preflop + players[i].call_or_raise_preflop_career
         const totalRaisesPF = players[i].raise_preflop + players[i].raise_preflop_career
@@ -578,7 +577,7 @@ const teststats = function () {
         if ((totalReRaisePF === 0) && (totalCallToRaisePF === 0)) {
           ThreeBetPF = '0.0'
         }
-        $('#stats-table').append('<tr><td>' + $('#playername' + (i + 1)).val() + '</td><td>' + totalHands + '</td><td>' + VPIP + '</td><td>' + PFR + '</td><td>' + ThreeBetPF + '</td></tr>')
+        $('#stats-table').append('<tr><td>' + $('#playername' + (i + 1)).val() + '</td><td>' + totalHands + '</td><td>' + VPIP + '</td><td>' + PFR + '</td></tr>')
       }
     }
   }
