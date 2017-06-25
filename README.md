@@ -11,6 +11,8 @@ their tendencies. Players can be saved and reloaded, as well as the user's
 career statistics. The user can see a list of their saved players, and delete
 players if they so choose.
 
+The app was designed to work on small devices, and was optimized for the Iphone 6.
+
 # Instructions
 
 To get started, the user must create an account with an email address. The name
