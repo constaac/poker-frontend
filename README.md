@@ -143,4 +143,5 @@ when a different table size is selected.
 ## Initial Wireframe Links
 
 Login - http://i.imgur.com/BB0XLaT.png
+
 Main - http://i.imgur.com/ZiwvBHM.png
