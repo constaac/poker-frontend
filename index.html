@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Poker Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Do not add `link` tags unless you know what you are doing -->
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Do not add `script` tags unless you know what you are doing -->
+  <script src="public/vendor.js" type="text/javascript" charset="utf-8" defer></script>
+  <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+
+<body class="container-fluid">
+  <div class="page-header">
+    <h1>Poker Tracker</h1>
+  </div>
+
+  <nav class="navbar navbar-default">
+    <div class="btn-group btn-group-justified start-inline" role="group">
+      <!-- Login Button trigger modal -->
+      <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+      Login
+    </a>
+
+      <!-- Account Creation button trigger modal -->
+      <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#accountCreateModal">
+        Sign Up
+      </a>
+    </div>
+    <div class="btn-group btn-group-justified start-display-none" role="group">
+      <!-- logout Button -->
+      <a type="button" id="logout-button" class="btn btn-primary">Logout</a>
+
+      <!-- Set Table Modal Button -->
+      <a type="button" class="btn btn-success" id="set-table-btn">
+        Table
+      </a>
+
+      <!-- Password Change Modal Button -->
+      <a type="button" class="btn btn-primary" data-toggle="modal" data-target="#passwordModal">
+        Account
+      </a>
+    </div>
+  </nav>
+  <div class="start-block"><br>
+    <div class="well-overflow">
+      <div class="well">
+        <h3 class="text-center">Welcome!</h3>
+        <ol class="text-left">
+          <li>Log in and click "Table" to begin</li><br>
+          <li>Choose how large the table will be; chair numbers begin at one point and go clockwise</li><br>
+          <li>Select which players are actually playing each round (players can sit out for a few rounds)</li><br>
+          <li>Select which chair is the user (Beware: switching to another chair will overwrite that chair; save it beforehand)</li><br>
+          <li>Players that you expect to see again can be saved to the database by choosing a name and their chair #, then clicking "save"</li><br>
+          <li>You can also update a saved player's stats by choosing their chair # and clicking "save"</li><br>
+          <li>You can load a player's previous statistics by entering their name (case-sens), choosing a chair for them to join, and then clicking load</li><br>
+          <li>A player can be deleted from the database, but must be loaded into a seat slot to do so</li><br>
+          <li>Once the table is set, you may start the game (the table cannot be modified during a round)</li><br>
+          <li>After selecting a dealer, simply tap the button corresponding to each person's action</li><br>
+          <li>Clicking the statistics button will load several statistics for each player (Information Below)</li><br>
+          <li>To change your password, sign in and click "Account"</li><br>
+
+        </ol>
+        <ul class="text-left">
+          <li><a href="http://www.thepokerbank.com/articles/software/vpip/">VPIP</a></li>
+          <li><a href="http://www.thepokerbank.com/articles/software/pfr/">PFR</a></li>
+          <!-- <li><a href="http://www.thepokerbank.com/strategy/plays/3bet/">3Bet (Pre-Flop)</a></li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid start-display-none">
+    <div class="row">
+      <div class="col-xs-12">
+        <button type="button" id="start-round-btn" class="btn btn-danger btn-primary btn-block btn-main">Start Round</button>
+      </div>
+      <div class="dealer-menu-container">
+        <ul class="dealer-menu pagination pagination-sm">
+
+        </ul>
+      </div>
+      <div class="col-xs-12">
+        <button type="button" id="bet-button" class="btn btn-info btn-primary btn-block btn-main" disabled>Bet / Raise</button>
+      </div>
+      <div class="col-xs-12">
+        <button type="button" id="call-button" class="btn btn-info btn-primary btn-block btn-main" disabled>Call</button>
+      </div>
+      <div class="col-xs-12">
+        <button type="button" id="check-button" class="btn btn-info btn-primary btn-block btn-main" disabled>Check</button>
+      </div>
+      <div class="col-xs-12">
+        <button type="button" id="fold-button" class="btn btn-info btn-primary btn-block btn-main" disabled>Fold</button>
+      </div>
+      <div class="col-xs-12">
+        <button type="button" id="teststats" class="btn btn-success btn-primary btn-block btn-main">Statistics</button>
+      </div>
+      <div class="col-xs-12">
+
+      </div>
+    </div>
+    <div class="well">
+      <span id="status-indicator">Welcome! Set the Table and then Begin a Round</span>
+    </div>
+  </div>
+
+  <!--____________________________________MODALS SECTION____________________________________-->
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabelSignin">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabelSignin">Login</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" id="login-form">
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" placeholder="Email" name="credentials[email]">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Password:</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" placeholder="Password" name="credentials[password]">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" name="submit" class="btn btn-default">Login</button>
+              </div>
+            </div>
+          </form>
+          <p class="signinstatus"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Account Creation Modal -->
+  <div class="modal fade" id="accountCreateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabelSignup">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabelSignup">Create Account</h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" id="signup-form">
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">Email:</label>
+              <div class="col-sm-10">
+                <input type="email" class="form-control" placeholder="Email" name="credentials[email]" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputName3" class="col-sm-2 control-label">Name:</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" placeholder="Full Name (Case Sens.)" name="credentials[name]" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Password:</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" placeholder="Password (Case Sens.)" name="credentials[password]" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">Password Confirmation:</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" placeholder="Password Again" name="credentials[password_confirmation]" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" name="submit" class="btn btn-default">Create Account</button>
+              </div>
+            </div>
+          </form>
+          <p class="signupstatus"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Password Change Modal -->
+  <div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabelPassword">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabelPassword">Change password <small>(Case Sensitive)</small></h4>
+        </div>
+        <div class="modal-body">
+          <form class="form-horizontal" id="password-form">
+            <div class="form-group">
+              <label for="inputEmail3" class="col-sm-2 control-label">Old Password:</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" placeholder="Old Password" name="[passwords][old]" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputPassword3" class="col-sm-2 control-label">New Password:</label>
+              <div class="col-sm-10">
+                <input type="password" class="form-control" placeholder="New Password" name="[passwords][new]" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" name="submit" class="btn btn-default">Submit</button>
+              </div>
+            </div>
+          </form>
+          <p class="passwordstatus"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Set Table Modal -->
+  <div class="modal fade" id="tableModal" tabindex="-1" role="dialog" aria-labelledby="table">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="table-label">Set Total Number of Seats</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="pagination set-seat-number">
+            <li><a type="button" class="btn" id="seat-button-2">2</a></li>
+            <li><a type="button" class="btn" id="seat-button-3">3</a></li>
+            <li><a type="button" class="btn" id="seat-button-4">4</a></li>
+            <li><a type="button" class="btn" id="seat-button-5">5</a></li>
+            <li><a type="button" class="btn" id="seat-button-6">6</a></li>
+            <li><a type="button" class="btn" id="seat-button-7">7</a></li>
+            <li><a type="button" class="btn" id="seat-button-8">8</a></li>
+            <li><a type="button" class="btn" id="seat-button-9">9</a></li>
+            <li><a type="button" class="btn" id="seat-button-10">10</a></li>
+          </ul><br>
+          <div id="seats-table" class="panel panel-default">
+
+          </div>
+          <div class="container-fluid load-save-menu">
+              <div class="row">
+                <label class="item-input item-select">
+                  Select Seat Number:
+                    <select id="seat-selector">
+                  </select>
+                </label>
+              </div><br>
+              <div class="row">
+                <div class="item-input-inset">
+                  <button id="save-button" class="btn btn-primary">
+                    Save
+                  </button>
+                  <button id="load-button" class="btn btn-primary">
+                    Load
+                  </button>
+                  <button id="delete-button" class="btn btn-primary">
+                    Delete
+                  </button>
+                  <button id="list-button" class="btn btn-primary">
+                    Player List
+                  </button>
+                  <button id="list-button-hide" class="btn btn-primary">
+                    Hide List
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <br>
+                <p id="error-indicator"></p>
+              </div>
+              <div class="player-index-container">
+                <ol id="player-index">
+                </ol>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Modal -->
+  <div class="modal fade" id="statisticsModal" tabindex="-1" role="dialog" aria-labelledby="statistics">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="stats-label">Statistics</h4>
+        </div>
+        <div class="modal-body">
+          <div class="panel panel-default">
+            <table id="stats-table" class="table">
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--____________________________________End of Modals Section____________________________________-->
+</body>
+
+</html>
